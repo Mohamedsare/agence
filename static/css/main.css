@@ -1265,6 +1265,18 @@ section {
   .portfolio-showcase-track {
     overflow-y: auto !important;
   }
+  
+  /* Masquer les scrollbars verticales dans toutes les sections */
+  section,
+  section * {
+    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+  }
+  
+  section::-webkit-scrollbar,
+  section *::-webkit-scrollbar {
+    display: none !important; /* Chrome, Safari, Opera */
+  }
 }
 
 /* Prevent overflow on main content areas */
