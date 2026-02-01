@@ -1,0 +1,75 @@
+{% load static %}
+{# Modal de demande de devis #}
+<div class="modal" id="quote-modal" aria-hidden="true" role="dialog" aria-labelledby="quote-modal-title" aria-modal="true">
+    <div class="modal-backdrop" id="quote-modal-backdrop"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2 class="modal-title" id="quote-modal-title">Demander un devis</h2>
+            <button class="modal-close" id="quote-modal-close" aria-label="Fermer le modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="{% url 'contact' %}" class="contact-form" id="quote-form" novalidate>
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                    <span class="form-error">{{ form.name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <span class="form-error">{{ form.email.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                        <span class="form-error">{{ form.phone.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.company.id_for_label }}">{{ form.company.label }}</label>
+                        {{ form.company }}
+                        {% if form.company.errors %}
+                        <span class="form-error">{{ form.company.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.budget.id_for_label }}">{{ form.budget.label }}</label>
+                    {{ form.budget }}
+                    {% if form.budget.errors %}
+                    <span class="form-error">{{ form.budget.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                    <span class="form-error">{{ form.message.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large btn-block">
+                    Envoyer la demande
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

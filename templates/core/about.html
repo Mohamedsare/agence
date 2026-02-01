@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block schema_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SiraWeb",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+  "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ouagadougou",
+    "addressCountry": "BF"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+226 XX XX XX XX",
+    "contactType": "customer service",
+    "email": "contact@siraweb.bf"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{# Hero Section #}
+<section class="about-hero">
+    <div class="container">
+        <div class="about-hero-content reveal-fade-up">
+            <h1 class="about-hero-title">À Propos de SiraWeb</h1>
+            <p class="about-hero-description">
+                Votre partenaire digital de confiance au Burkina Faso
+            </p>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Mission Section #}
+<section class="about-mission-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Notre Mission</span>
+            <h2 class="section-title">Qui sommes-nous ?</h2>
+        </div>
+        <div class="about-mission-content reveal-fade-up">
+            <div class="about-mission-text">
+                <p class="lead-text">
+                    SiraWeb est une agence web basée au Burkina Faso, spécialisée dans la création de sites web 
+                    modernes, performants et optimisés pour le référencement naturel.
+                </p>
+                <p>
+                    Nous accompagnons les entreprises, associations et institutions dans leur transformation digitale 
+                    avec des solutions sur mesure à coût maîtrisé. Notre équipe d'experts en développement web, 
+                    design UI/UX et SEO travaille avec passion pour offrir des résultats concrets qui font la différence.
+                </p>
+                <p>
+                    Que vous soyez à Ouagadougou, Bobo-Dioulasso ou ailleurs au Burkina Faso, nous sommes là pour 
+                    vous aider à développer votre présence en ligne et à atteindre vos objectifs digitaux.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Vision Section #}
+<section class="about-vision-section">
+    <div class="container">
+        <div class="about-vision-grid">
+            <div class="about-vision-content reveal-fade-up">
+                <span class="section-label">Notre Vision</span>
+                <h2 class="section-title">Notre ambition</h2>
+                <p>
+                    Devenir la référence en matière de solutions web au Burkina Faso en offrant des services 
+                    d'excellence accessibles à toutes les entreprises, quelle que soit leur taille.
+                </p>
+                <p>
+                    Nous croyons que chaque entreprise mérite une présence en ligne professionnelle et performante, 
+                    et nous nous engageons à rendre le digital accessible à tous.
+                </p>
+            </div>
+            <div class="about-vision-stats reveal-fade-up">
+                <div class="vision-stat-item">
+                    <div class="vision-stat-number" data-target="50">0</div>
+                    <div class="vision-stat-label">Projets réalisés</div>
+                </div>
+                <div class="vision-stat-item">
+                    <div class="vision-stat-number" data-target="5">0</div>
+                    <div class="vision-stat-label">Années d'expérience</div>
+                </div>
+                <div class="vision-stat-item">
+                    <div class="vision-stat-number" data-target="98">0</div>
+                    <div class="vision-stat-label">% Clients satisfaits</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Values Section #}
+<section class="about-values-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Nos Valeurs</span>
+            <h2 class="section-title">Ce qui nous guide</h2>
+            <p class="section-description">
+                Les valeurs qui façonnent notre approche et notre engagement envers nos clients
+            </p>
+        </div>
+        <div class="values-grid">
+            <div class="value-item reveal-fade-up">
+                <div class="value-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h3>Excellence</h3>
+                <p>Nous visons l'excellence dans chaque projet que nous réalisons, en nous assurant de dépasser les attentes de nos clients.</p>
+            </div>
+            <div class="value-item reveal-fade-up">
+                <div class="value-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Proximité</h3>
+                <p>Une relation de confiance et un accompagnement personnalisé tout au long de votre projet digital.</p>
+            </div>
+            <div class="value-item reveal-fade-up">
+                <div class="value-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3>Résultats</h3>
+                <p>Des solutions qui génèrent des résultats mesurables et un retour sur investissement concret pour votre entreprise.</p>
+            </div>
+            <div class="value-item reveal-fade-up">
+                <div class="value-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3>Accessibilité</h3>
+                <p>Des tarifs transparents et adaptés au marché burkinabè, sans compromis sur la qualité.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Why Choose Us Section #}
+<section class="about-why-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Pourquoi SiraWeb ?</span>
+            <h2 class="section-title">Votre partenaire idéal</h2>
+        </div>
+        <div class="about-why-grid">
+            <div class="about-why-item reveal-fade-up">
+                <div class="about-why-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                </div>
+                <h3>Expertise locale</h3>
+                <p>Une connaissance approfondie du marché burkinabè et des besoins spécifiques des entreprises locales.</p>
+            </div>
+            <div class="about-why-item reveal-fade-up">
+                <div class="about-why-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3>Tarifs adaptés</h3>
+                <p>Des prix compétitifs et transparents, conçus pour le marché burkinabè sans compromis sur la qualité.</p>
+            </div>
+            <div class="about-why-item reveal-fade-up">
+                <div class="about-why-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3>Résultats garantis</h3>
+                <p>Un engagement fort sur les résultats avec un suivi continu et des ajustements selon vos besoins.</p>
+            </div>
+            <div class="about-why-item reveal-fade-up">
+                <div class="about-why-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Accompagnement dédié</h3>
+                <p>Un interlocuteur unique et un suivi personnalisé de votre projet du début à la fin.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Travaillons ensemble</h2>
+            <p class="cta-description">
+                Découvrez comment nous pouvons vous aider à développer votre présence en ligne et à atteindre vos objectifs digitaux.
+            </p>
+            <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-about">
+                <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}

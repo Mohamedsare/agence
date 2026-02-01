@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="error-page">
+    <div class="container">
+        <div class="error-content">
+            <h1 class="error-code">500</h1>
+            <h2 class="error-title">Erreur serveur</h2>
+            <p class="error-description">
+                Une erreur s'est produite sur le serveur. Veuillez réessayer plus tard.
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-primary btn-large">
+                Retour à l'accueil
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

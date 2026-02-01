@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta_title %}Mentions Légales - SiraWeb | Agence Web Burkina Faso{% endblock %}
+{% block meta_description %}Mentions légales de SiraWeb, agence web au Burkina Faso. Informations sur l'entreprise, l'hébergeur et les données personnelles.{% endblock %}
+
+{% block content %}
+{# Hero Section #}
+<section class="legal-hero">
+    <div class="container">
+        <div class="legal-hero-content reveal-fade-up">
+            <h1 class="legal-hero-title">Mentions Légales</h1>
+            <p class="legal-hero-description">
+                Informations légales et réglementaires
+            </p>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Legal Content Section #}
+<section class="legal-content-section">
+    <div class="container">
+        <div class="legal-content reveal-fade-up">
+            
+            <div class="legal-section">
+                <h2>1. Informations sur l'entreprise</h2>
+                <div class="legal-info">
+                    <p><strong>Raison sociale :</strong> SiraWeb</p>
+                    <p><strong>Forme juridique :</strong> [À compléter]</p>
+                    <p><strong>Siège social :</strong> Ouagadougou, Burkina Faso</p>
+                    <p><strong>Email :</strong> contact@siraweb.bf</p>
+                    <p><strong>Téléphone :</strong> +226 64 71 20 44 / +212 771 668 079</p>
+                    <p><strong>Directeur de publication :</strong> [À compléter]</p>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. Hébergement</h2>
+                <div class="legal-info">
+                    <p><strong>Hébergeur :</strong> [À compléter]</p>
+                    <p><strong>Adresse :</strong> [À compléter]</p>
+                    <p><strong>Téléphone :</strong> [À compléter]</p>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Propriété intellectuelle</h2>
+                <p>
+                    L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur 
+                    et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour 
+                    les documents téléchargeables et les représentations iconographiques et photographiques.
+                </p>
+                <p>
+                    La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est 
+                    formellement interdite sauf autorisation expresse du directeur de la publication.
+                </p>
+                <p>
+                    La reproduction des textes de ce site sur un support papier est autorisée, tout particulièrement 
+                    dans un cadre pédagogique, sous réserve du respect des trois conditions suivantes :
+                </p>
+                <ul>
+                    <li>gratuité de la diffusion,</li>
+                    <li>respect de l'intégrité des documents reproduits (pas de modification ni altération),</li>
+                    <li>citation claire et lisible de la source sous la forme : "Document issu du site SiraWeb. 
+                        Droits de reproduction réservés et limités."</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. Protection des données personnelles</h2>
+                <p>
+                    Conformément à la loi n° 010-2004/AN du 20 avril 2004 portant protection des données à caractère 
+                    personnel au Burkina Faso, vous disposez d'un droit d'accès, de rectification et de suppression 
+                    des données qui vous concernent.
+                </p>
+                <p>
+                    Vous pouvez exercer ce droit en nous contactant à l'adresse : contact@siraweb.bf
+                </p>
+                <p>
+                    Pour plus d'informations, consultez notre <a href="{% url 'privacy' %}">Politique de confidentialité</a>.
+                </p>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. Cookies</h2>
+                <p>
+                    Ce site utilise des cookies pour améliorer l'expérience utilisateur et analyser le trafic. 
+                    En continuant à naviguer sur ce site, vous acceptez l'utilisation de cookies.
+                </p>
+                <p>
+                    Vous pouvez configurer votre navigateur pour refuser les cookies, mais certaines fonctionnalités 
+                    du site peuvent ne plus être accessibles.
+                </p>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Responsabilité</h2>
+                <p>
+                    Les informations contenues sur ce site sont aussi précises que possible et le site est périodiquement 
+                    remis à jour, mais peut toutefois contenir des inexactitudes, des omissions ou des lacunes.
+                </p>
+                <p>
+                    SiraWeb ne pourra être tenu responsable des dommages directs et indirects causés au matériel de 
+                    l'utilisateur, lors de l'accès au site, et résultant soit de l'utilisation d'un matériel ne répondant 
+                    pas aux spécifications, soit de l'apparition d'un bug ou d'une incompatibilité.
+                </p>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. Liens hypertextes</h2>
+                <p>
+                    Le site peut contenir des liens hypertextes vers d'autres sites présents sur le réseau Internet. 
+                    Les liens vers ces autres ressources vous font quitter le site SiraWeb.
+                </p>
+                <p>
+                    Il est possible de créer un lien vers la page de présentation de ce site sans autorisation expresse 
+                    de l'éditeur. Aucune autorisation ni demande d'information préalable ne peut être exigée par l'éditeur 
+                    à l'égard d'un site qui souhaite établir un lien vers le site de l'éditeur. Il convient toutefois 
+                    d'afficher ce site dans une nouvelle fenêtre du navigateur.
+                </p>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. Droit applicable</h2>
+                <p>
+                    Le présent site et les modalités de son utilisation sont régis par le droit burkinabè. 
+                    En cas de litige et à défaut d'accord amiable, le litige sera porté devant les tribunaux 
+                    compétents du Burkina Faso.
+                </p>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. Contact</h2>
+                <p>
+                    Pour toute question concernant ces mentions légales, vous pouvez nous contacter :
+                </p>
+                <div class="legal-info">
+                    <p><strong>Email :</strong> contact@siraweb.bf</p>
+                    <p><strong>Téléphone :</strong> +226 64 71 20 44 / +212 771 668 079</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+{% endblock %}

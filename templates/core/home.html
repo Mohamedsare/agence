@@ -1,0 +1,481 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block schema_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "SiraWeb",
+  "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "telephone": "+226 XX XX XX XX",
+  "email": "contact@siraweb.bf",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ouagadougou",
+    "addressCountry": "BF"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "12.3714",
+    "longitude": "-1.5197"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Burkina Faso"
+  },
+  "sameAs": [
+    "https://www.facebook.com/siraweb",
+    "https://www.linkedin.com/company/siraweb"
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{# Hero Section with Background Slider - Navbar intégrée #}
+<section class="hero" id="hero">
+    {# Navbar intégrée dans le hero #}
+    {% include 'partials/navbar.html' %}
+    
+    <div class="hero-background">
+        <div class="hero-slide active" data-slide="0">
+            <div class="hero-gradient"></div>
+            <div class="hero-noise"></div>
+            <div class="hero-spotlight"></div>
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        <div class="hero-slide" data-slide="1">
+            <div class="hero-gradient gradient-2"></div>
+            <div class="hero-noise"></div>
+            <div class="hero-spotlight"></div>
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        <div class="hero-slide" data-slide="2">
+            <div class="hero-gradient gradient-3"></div>
+            <div class="hero-noise"></div>
+            <div class="hero-spotlight"></div>
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-content">
+        <div class="container">
+            <div class="hero-text reveal-fade-up">
+                <h1 class="hero-title">
+                    Votre agence web au <span class="text-accent">Burkina Faso</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Nous créons des sites web modernes, performants et optimisés pour le SEO. 
+                    Des solutions sur mesure à coût maîtrisé pour votre entreprise à Ouagadougou et Bobo-Dioulasso.
+                </p>
+                <div class="hero-cta">
+                    <a href="{% url 'contact' %}" class="btn btn-primary btn-large magnetic">
+                        <span class="cta-text-highlight">Nous<span class="highlight-part">Contacter</span></span>
+                    </a>
+                    <a href="{% url 'services_list' %}" class="btn btn-secondary btn-large">
+                        <span>Nos Services</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll-indicator" aria-hidden="true">
+        <span>Scroll</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Portfolio Section #}
+<section class="portfolio-showcase-section" id="portfolio">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Nos Réalisations</span>
+            <h2 class="section-title">Des projets qui marquent</h2>
+            <p class="section-description">
+                Découvrez quelques-uns de nos projets réalisés pour des entreprises au Burkina Faso
+            </p>
+        </div>
+        <div class="portfolio-showcase-slider" id="portfolio-slider">
+            <button class="slider-prev portfolio-slider-prev" aria-label="Projet précédent">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <div class="portfolio-showcase-track">
+                {% for project in portfolio_projects %}
+                <div class="portfolio-showcase-item reveal-fade-up">
+                    <div class="portfolio-showcase-image">
+                        {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{ project.name }}" class="portfolio-showcase-img">
+                        {% else %}
+                        <div class="portfolio-showcase-placeholder"></div>
+                        {% endif %}
+                        <div class="portfolio-showcase-overlay">
+                            <h3 class="portfolio-showcase-name">{{ project.name }}</h3>
+                            <div class="portfolio-showcase-actions">
+                                {% if project.website_url %}
+                                <a href="{{ project.website_url }}" target="_blank" rel="noopener noreferrer" class="portfolio-showcase-link" aria-label="Voir le site">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                                {% endif %}
+                                {% if project.detail_url %}
+                                <a href="{{ project.detail_url }}" target="_blank" rel="noopener noreferrer" class="portfolio-showcase-link" aria-label="Voir les détails">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="M21 21l-4.35-4.35"></path>
+                                    </svg>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                {# Placeholder si aucun projet #}
+                <div class="portfolio-showcase-item reveal-fade-up">
+                    <div class="portfolio-showcase-image">
+                        <div class="portfolio-showcase-placeholder"></div>
+                        <div class="portfolio-showcase-overlay">
+                            <h3 class="portfolio-showcase-name">Projet à venir</h3>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="slider-next portfolio-slider-next" aria-label="Projet suivant">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+        <div class="portfolio-showcase-footer reveal-fade-up">
+            <a href="#process" class="btn btn-outline btn-large">
+                Comment ça marche ?
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Services Section #}
+<section class="services-section" id="services">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Nos Services</span>
+            <h2 class="section-title">Des solutions web adaptées à vos besoins</h2>
+            <p class="section-description">
+                De la création de site vitrine au référencement naturel, nous accompagnons votre entreprise 
+                dans sa transformation digitale au Burkina Faso.
+            </p>
+        </div>
+        <div class="services-grid">
+            {% for service in services %}
+            <article class="service-card reveal-fade-up" data-delay="{{ forloop.counter0|add:'0.1' }}">
+                <div class="service-card-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <h3 class="service-card-title">{{ service.get_name_display }}</h3>
+                <p class="service-card-description">{{ service.short_description }}</p>
+                <a href="{{ service.get_absolute_url }}" class="service-card-link">
+                    En savoir plus
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+        <div class="section-footer reveal-fade-up">
+            <a href="{% url 'services_list' %}" class="btn btn-outline">
+                Voir tous les services
+            </a>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Process Section #}
+<section class="process-section" id="process">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Notre Processus</span>
+            <h2 class="section-title">Comment nous travaillons</h2>
+            <p class="section-description">
+                Une méthodologie éprouvée en 4 étapes pour garantir le succès de votre projet web
+            </p>
+        </div>
+        <div class="process-timeline-wrapper">
+            <div class="process-timeline">
+                <div class="process-step reveal-fade-up">
+                    <div class="process-step-connector"></div>
+                    <div class="process-step-content">
+                        <div class="process-step-number">01</div>
+                        <div class="process-step-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="process-title">Analyse & Conception</h3>
+                        <p class="process-description">
+                            Nous analysons vos besoins, votre marché et vos objectifs pour concevoir une stratégie web adaptée à votre entreprise.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="process-step reveal-fade-up">
+                    <div class="process-step-connector"></div>
+                    <div class="process-step-content">
+                        <div class="process-step-number">02</div>
+                        <div class="process-step-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="process-title">Design & Développement</h3>
+                        <p class="process-description">
+                            Création d'une interface moderne et intuitive, puis développement avec les dernières technologies pour des performances optimales.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="process-step reveal-fade-up">
+                    <div class="process-step-connector"></div>
+                    <div class="process-step-content">
+                        <div class="process-step-number">03</div>
+                        <div class="process-step-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="6" x2="12" y2="12"></line>
+                                <line x1="16.14" y1="7.86" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <h3 class="process-title">Optimisation SEO</h3>
+                        <p class="process-description">
+                            Optimisation technique et contenu pour améliorer votre visibilité sur Google et attirer plus de clients au Burkina Faso.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="process-step reveal-fade-up">
+                    <div class="process-step-content">
+                        <div class="process-step-number">04</div>
+                        <div class="process-step-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="process-title">Lancement & Suivi</h3>
+                        <p class="process-description">
+                            Mise en ligne de votre site et accompagnement continu pour garantir les performances et la satisfaction de vos utilisateurs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Portfolio Section #}
+<section class="portfolio-section" id="portfolio">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Nos Réalisations</span>
+            <h2 class="section-title">Des projets qui marquent</h2>
+            <p class="section-description">
+                Découvrez quelques-uns de nos projets réalisés pour des entreprises au Burkina Faso.
+            </p>
+        </div>
+        <div class="portfolio-grid">
+            {# Placeholder projects - to be replaced with actual portfolio model #}
+            <div class="portfolio-item reveal-fade-up">
+                <div class="portfolio-image">
+                    <div class="portfolio-placeholder"></div>
+                </div>
+                <div class="portfolio-content">
+                    <h3 class="portfolio-title">Site E-commerce</h3>
+                    <p class="portfolio-category">E-commerce</p>
+                </div>
+            </div>
+            <div class="portfolio-item reveal-fade-up">
+                <div class="portfolio-image">
+                    <div class="portfolio-placeholder"></div>
+                </div>
+                <div class="portfolio-content">
+                    <h3 class="portfolio-title">Site Institutionnel</h3>
+                    <p class="portfolio-category">Institutionnel</p>
+                </div>
+            </div>
+            <div class="portfolio-item reveal-fade-up">
+                <div class="portfolio-image">
+                    <div class="portfolio-placeholder"></div>
+                </div>
+                <div class="portfolio-content">
+                    <h3 class="portfolio-title">Landing Page</h3>
+                    <p class="portfolio-category">Marketing</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Testimonials Section #}
+{% if testimonials %}
+<section class="testimonials-section" id="testimonials">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Témoignages</span>
+            <h2 class="section-title">Ce que nos clients disent</h2>
+        </div>
+        <div class="testimonials-slider" id="testimonials-slider">
+            <div class="testimonials-track">
+                {% for testimonial in testimonials %}
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        {% for i in "12345" %}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="{% if forloop.counter <= testimonial.rating %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        {% endfor %}
+                    </div>
+                    <blockquote class="testimonial-content">
+                        <p>{{ testimonial.content }}</p>
+                    </blockquote>
+                    <div class="testimonial-author">
+                        {% if testimonial.photo %}
+                        <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.client_name }}" class="testimonial-photo">
+                        {% else %}
+                        <div class="testimonial-photo-placeholder"></div>
+                        {% endif %}
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">{{ testimonial.client_name }}</div>
+                            <div class="testimonial-role">
+                                {% if testimonial.client_role %}{{ testimonial.client_role }}{% endif %}
+                                {% if testimonial.client_company %} - {{ testimonial.client_company }}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="testimonials-controls">
+                <button class="slider-btn slider-prev" aria-label="Témoignage précédent">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <button class="slider-btn slider-next" aria-label="Témoignage suivant">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Partners Section #}
+{% if partners %}
+<section class="partners-section" id="partners">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Nos Partenaires</span>
+            <h2 class="section-title">Ils nous font confiance</h2>
+        </div>
+        <div class="partners-grid">
+            {% for partner in partners %}
+            <div class="partner-item reveal-fade-up">
+                {% if partner.logo %}
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="partner-logo" loading="lazy">
+                {% else %}
+                <div class="partner-placeholder">{{ partner.name }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# CTA Section #}
+<section class="cta-section" id="cta">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Prêt à démarrer votre projet web ?</h2>
+            <p class="cta-description">
+                Contactez-nous dès aujourd'hui pour un devis gratuit et personnalisé.
+            </p>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-large magnetic">
+                <span>Demander un devis gratuit</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

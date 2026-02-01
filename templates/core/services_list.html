@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Nos Services</h1>
+        <p class="page-description">
+            Des solutions web complètes et sur mesure pour développer votre présence en ligne au Burkina Faso
+        </p>
+    </div>
+</section>
+
+{# Intro Section #}
+<section class="services-intro">
+    <div class="container">
+        <div class="services-intro-content reveal-fade-up">
+            <p class="services-intro-text">
+                Chez SiraWeb, nous proposons une gamme complète de services web adaptés aux besoins des entreprises 
+                au Burkina Faso. De la création de site vitrine au référencement naturel, en passant par le développement 
+                e-commerce, nous accompagnons votre transformation digitale avec expertise et professionnalisme.
+            </p>
+        </div>
+    </div>
+</section>
+
+{# Services Grid #}
+<section class="services-page">
+    <div class="container">
+        <div class="services-grid-large">
+            {% for service in services %}
+            <article class="service-card-large reveal-fade-up" data-delay="{{ forloop.counter0|add:'0.1' }}">
+                <div class="service-card-large-content">
+                    <div class="service-card-large-icon">
+                        {% if service.name == 'vitrine' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        {% elif service.name == 'ecommerce' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        {% elif service.name == 'institutionnel' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        {% elif service.name == 'landing' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="9" y1="21" x2="9" y2="9"></line>
+                        </svg>
+                        {% elif service.name == 'refonte' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                        {% elif service.name == 'seo' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="6" x2="12" y2="12"></line>
+                            <line x1="16.14" y1="7.86" x2="12" y2="12"></line>
+                            <line x1="18" y1="12" x2="12" y2="12"></line>
+                            <line x1="16.14" y1="16.14" x2="12" y2="12"></line>
+                            <line x1="12" y1="18" x2="12" y2="12"></line>
+                            <line x1="7.86" y1="16.14" x2="12" y2="12"></line>
+                            <line x1="6" y1="12" x2="12" y2="12"></line>
+                            <line x1="7.86" y1="7.86" x2="12" y2="12"></line>
+                        </svg>
+                        {% elif service.name == 'sea' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <circle cx="12" cy="12" r="4"></circle>
+                        </svg>
+                        {% elif service.name == 'maintenance' %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                        </svg>
+                        {% else %}
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        {% endif %}
+                    </div>
+                    <h2 class="service-card-large-title">{{ service.get_name_display }}</h2>
+                    <p class="service-card-large-description">{{ service.short_description }}</p>
+                    <ul class="service-features">
+                        <li>Solution sur mesure</li>
+                        <li>Optimisé pour le SEO</li>
+                        <li>Support continu</li>
+                    </ul>
+                    <a href="{{ service.get_absolute_url }}" class="btn btn-primary">
+                        Découvrir ce service
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{# Why Choose Us Section #}
+<section class="why-choose-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Pourquoi SiraWeb ?</span>
+            <h2 class="section-title">Votre partenaire digital de confiance</h2>
+        </div>
+        <div class="why-choose-grid">
+            <div class="why-choose-item reveal-fade-up">
+                <div class="why-choose-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h3>Expertise locale</h3>
+                <p>Une connaissance approfondie du marché burkinabè et des besoins des entreprises locales.</p>
+            </div>
+            <div class="why-choose-item reveal-fade-up">
+                <div class="why-choose-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3>Tarifs transparents</h3>
+                <p>Des prix adaptés au marché local, sans surprise. Devis détaillé et personnalisé.</p>
+            </div>
+            <div class="why-choose-item reveal-fade-up">
+                <div class="why-choose-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3>Résultats garantis</h3>
+                <p>Des solutions qui génèrent des résultats mesurables pour votre entreprise.</p>
+            </div>
+            <div class="why-choose-item reveal-fade-up">
+                <div class="why-choose-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Accompagnement personnalisé</h3>
+                <p>Un suivi dédié et une relation de proximité tout au long de votre projet.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Stats Section #}
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">Projets réalisés</div>
+            </div>
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">% Clients satisfaits</div>
+            </div>
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">Années d'expérience</div>
+            </div>
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">Support 24/7</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# CTA Section #}
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Prêt à démarrer votre projet ?</h2>
+            <p class="cta-description">
+                Discutez de vos besoins avec nos experts et obtenez un devis personnalisé gratuit.
+            </p>
+            <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-services">
+                <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}

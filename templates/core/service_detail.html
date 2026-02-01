@@ -1,0 +1,371 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block schema_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "{{ service.get_name_display }}",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "SiraWeb",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ouagadougou",
+      "addressCountry": "BF"
+    }
+  },
+  "description": "{{ service.meta_description|default:service.short_description }}",
+  "areaServed": {
+    "@type": "Country",
+    "name": "Burkina Faso"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+{# Hero Section #}
+<section class="service-hero">
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="{% url 'home' %}">Accueil</a>
+            <span aria-hidden="true">/</span>
+            <a href="{% url 'services_list' %}">Services</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ service.get_name_display }}</span>
+        </nav>
+        <div class="service-hero-content reveal-fade-up">
+            <div class="service-hero-icon">
+                {% if service.name == 'vitrine' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                {% elif service.name == 'ecommerce' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                {% elif service.name == 'institutionnel' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                {% elif service.name == 'landing' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                {% elif service.name == 'refonte' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                {% elif service.name == 'seo' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="6" x2="12" y2="12"></line>
+                    <line x1="16.14" y1="7.86" x2="12" y2="12"></line>
+                    <line x1="18" y1="12" x2="12" y2="12"></line>
+                    <line x1="16.14" y1="16.14" x2="12" y2="12"></line>
+                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                    <line x1="7.86" y1="16.14" x2="12" y2="12"></line>
+                    <line x1="6" y1="12" x2="12" y2="12"></line>
+                    <line x1="7.86" y1="7.86" x2="12" y2="12"></line>
+                </svg>
+                {% elif service.name == 'sea' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <circle cx="12" cy="12" r="4"></circle>
+                </svg>
+                {% elif service.name == 'maintenance' %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+                {% else %}
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                {% endif %}
+            </div>
+            <h1 class="service-hero-title">{{ service.get_name_display }}</h1>
+            <p class="service-hero-description">{{ service.short_description }}</p>
+            <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-service-detail">
+                <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+{# Description Section #}
+<section class="service-description-section">
+    <div class="container">
+        <div class="service-description-content reveal-fade-up">
+            <h2 class="section-title">En détail</h2>
+            <div class="service-description-text">
+                {{ service.full_description|linebreaks }}
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Features Section #}
+<section class="service-features-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Ce que vous obtenez</span>
+            <h2 class="section-title">Livrables inclus</h2>
+        </div>
+        <div class="service-features-grid">
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <h3>Site web moderne</h3>
+                <p>Design responsive et adapté à tous les appareils (mobile, tablette, desktop)</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="6" x2="12" y2="12"></line>
+                        <line x1="16.14" y1="7.86" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Optimisation SEO</h3>
+                <p>Référencement naturel intégré pour améliorer votre visibilité en ligne</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Formation incluse</h3>
+                <p>Session de formation pour vous permettre de gérer votre site en autonomie</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <h3>Documentation</h3>
+                <p>Guide complet et documentation technique pour votre équipe</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3>Support continu</h3>
+                <p>Accompagnement post-lancement et support technique disponible</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3>Hébergement sécurisé</h3>
+                <p>Solution d'hébergement performante et sécurisée incluse</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Process Section #}
+<section class="service-process-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Notre méthode</span>
+            <h2 class="section-title">Comment ça se passe ?</h2>
+        </div>
+        <div class="service-process-steps">
+            <div class="process-step reveal-fade-up">
+                <div class="process-step-number">01</div>
+                <div class="process-step-content">
+                    <h3>Analyse & Consultation</h3>
+                    <p>Nous analysons vos besoins et définissons ensemble les objectifs de votre projet.</p>
+                </div>
+            </div>
+            <div class="process-step reveal-fade-up">
+                <div class="process-step-number">02</div>
+                <div class="process-step-content">
+                    <h3>Conception & Design</h3>
+                    <p>Création de maquettes et validation du design avant développement.</p>
+                </div>
+            </div>
+            <div class="process-step reveal-fade-up">
+                <div class="process-step-number">03</div>
+                <div class="process-step-content">
+                    <h3>Développement</h3>
+                    <p>Développement de votre solution avec des technologies modernes et performantes.</p>
+                </div>
+            </div>
+            <div class="process-step reveal-fade-up">
+                <div class="process-step-number">04</div>
+                <div class="process-step-content">
+                    <h3>Tests & Ajustements</h3>
+                    <p>Tests approfondis et ajustements selon vos retours avant mise en ligne.</p>
+                </div>
+            </div>
+            <div class="process-step reveal-fade-up">
+                <div class="process-step-number">05</div>
+                <div class="process-step-content">
+                    <h3>Lancement & Formation</h3>
+                    <p>Mise en ligne de votre site et formation de votre équipe à l'utilisation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# FAQ Section #}
+<section class="service-faq-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Questions fréquentes</span>
+            <h2 class="section-title">FAQ</h2>
+        </div>
+        <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+            <div class="faq-item reveal-fade-up" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="faq-question" type="button" itemprop="name">
+                    <span>Quel est le coût de ce service ?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">
+                        Le coût dépend de vos besoins spécifiques et de la complexité de votre projet. 
+                        Nous proposons des tarifs adaptés au marché burkinabè. Contactez-nous pour un devis 
+                        personnalisé et gratuit, sans engagement.
+                    </p>
+                </div>
+            </div>
+            <div class="faq-item reveal-fade-up" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="faq-question" type="button" itemprop="name">
+                    <span>Combien de temps prend la réalisation ?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">
+                        Les délais varient selon la complexité du projet. Un site vitrine simple peut être 
+                        livré en 2-4 semaines, tandis qu'un site e-commerce nécessite généralement 6-10 semaines. 
+                        Nous vous fournirons un planning détaillé lors de la consultation initiale.
+                    </p>
+                </div>
+            </div>
+            <div class="faq-item reveal-fade-up" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="faq-question" type="button" itemprop="name">
+                    <span>Travaillez-vous avec des entreprises en dehors du Burkina Faso ?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">
+                        Oui, nous travaillons avec des clients dans toute l'Afrique de l'Ouest. 
+                        Notre expertise locale combinée à une approche moderne nous permet d'accompagner 
+                        des entreprises de toute la région.
+                    </p>
+                </div>
+            </div>
+            <div class="faq-item reveal-fade-up" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="faq-question" type="button" itemprop="name">
+                    <span>Proposez-vous un support après la livraison ?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">
+                        Absolument ! Nous proposons des formules de maintenance et de support adaptées à vos besoins. 
+                        Que ce soit pour des mises à jour, des corrections ou de l'assistance technique, 
+                        nous sommes là pour vous accompagner sur le long terme.
+                    </p>
+                </div>
+            </div>
+            <div class="faq-item reveal-fade-up" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <button class="faq-question" type="button" itemprop="name">
+                    <span>Puis-je modifier le contenu moi-même après la livraison ?</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text">
+                        Oui, tous nos sites incluent une interface d'administration intuitive qui vous permet 
+                        de modifier le contenu, ajouter des pages, gérer les produits (pour e-commerce) 
+                        sans connaissances techniques. Nous vous formons à l'utilisation lors de la livraison.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Related Services Section #}
+{% if similar_services %}
+<section class="service-related-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Découvrez aussi</span>
+            <h2 class="section-title">Services similaires</h2>
+        </div>
+        <div class="service-related-grid">
+            {% for similar in similar_services %}
+            <a href="{{ similar.get_absolute_url }}" class="service-related-card reveal-fade-up">
+                <h3>{{ similar.get_name_display }}</h3>
+                <p>{{ similar.short_description }}</p>
+                <span class="service-related-link">
+                    En savoir plus
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# CTA Section #}
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Prêt à démarrer votre projet ?</h2>
+            <p class="cta-description">
+                Discutez de vos besoins avec nos experts et obtenez un devis personnalisé gratuit.
+            </p>
+            <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-service-cta">
+                <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}

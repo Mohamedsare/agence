@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">Tag : #{{ tag.name }}</h1>
+        <p class="page-description">
+            Articles taggés avec #{{ tag.name }}
+        </p>
+    </div>
+</section>
+
+<section class="blog-section">
+    <div class="container">
+        {% if articles %}
+        <div class="blog-grid">
+            {% for article in articles %}
+            <article class="blog-card reveal-fade-up">
+                {% if article.featured_image %}
+                <a href="{{ article.get_absolute_url }}" class="blog-card-image-link">
+                    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="blog-card-image" loading="lazy">
+                </a>
+                {% endif %}
+                <div class="blog-card-content">
+                    {% if article.category %}
+                    <span class="blog-card-category">{{ article.category.name }}</span>
+                    {% endif %}
+                    <h2 class="blog-card-title">
+                        <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                    </h2>
+                    <p class="blog-card-excerpt">{{ article.excerpt }}</p>
+                    <div class="blog-card-meta">
+                        <time datetime="{{ article.published_at|date:'Y-m-d' }}">
+                            {{ article.published_at|date:"d F Y" }}
+                        </time>
+                    </div>
+                    <a href="{{ article.get_absolute_url }}" class="blog-card-link">
+                        Lire la suite
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        {% if articles.has_other_pages %}
+        <nav class="pagination" aria-label="Pagination">
+            {% if articles.has_previous %}
+            <a href="?page={{ articles.previous_page_number }}" class="pagination-link pagination-prev">Précédent</a>
+            {% endif %}
+            <span class="pagination-info">Page {{ articles.number }} sur {{ articles.paginator.num_pages }}</span>
+            {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}" class="pagination-link pagination-next">Suivant</a>
+            {% endif %}
+        </nav>
+        {% endif %}
+        {% else %}
+        <div class="blog-empty">
+            <p>Aucun article avec ce tag pour le moment.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

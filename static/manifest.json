@@ -1,0 +1,22 @@
+{
+  "name": "SiraWeb - Agence Web Burkina Faso",
+  "short_name": "SiraWeb",
+  "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0F172A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block schema_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ article.title }}",
+  "description": "{{ article.meta_description|default:article.excerpt }}",
+  "image": "{% if article.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ article.featured_image.url }}{% endif %}",
+  "datePublished": "{{ article.published_at|date:'c' }}",
+  "dateModified": "{{ article.updated_at|date:'c' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ article.author }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SiraWeb",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}"
+    }
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<article class="blog-detail">
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="{% url 'home' %}">Accueil</a>
+            <span aria-hidden="true">/</span>
+            <a href="{% url 'blog_list' %}">Blog</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ article.title }}</span>
+        </nav>
+
+        <header class="blog-detail-header">
+            {% if article.category %}
+            <span class="blog-detail-category">{{ article.category.name }}</span>
+            {% endif %}
+            <h1 class="blog-detail-title">{{ article.title }}</h1>
+            <div class="blog-detail-meta">
+                <time datetime="{{ article.published_at|date:'Y-m-d' }}" class="blog-detail-date">
+                    {{ article.published_at|date:"d F Y" }}
+                </time>
+                <span class="blog-detail-author">Par {{ article.author }}</span>
+            </div>
+            {% if article.featured_image %}
+            <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="blog-detail-image" loading="eager">
+            {% endif %}
+        </header>
+
+        <div class="blog-detail-content">
+            <div class="blog-detail-main">
+                <div class="blog-detail-text">
+                    {{ article.content|linebreaks }}
+                </div>
+
+                {% if article.tags.all %}
+                <div class="blog-detail-tags">
+                    <span class="tags-label">Tags :</span>
+                    {% for tag in article.tags.all %}
+                    <a href="{% url 'blog_tag' tag.slug %}" class="tag-link">#{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <aside class="blog-detail-sidebar">
+                {% if recent_articles %}
+                <div class="blog-sidebar-section">
+                    <h3>Articles récents</h3>
+                    <ul class="blog-sidebar-list">
+                        {% for recent in recent_articles %}
+                        <li>
+                            <a href="{{ recent.get_absolute_url }}">{{ recent.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if similar_articles %}
+                <div class="blog-sidebar-section">
+                    <h3>Articles similaires</h3>
+                    <ul class="blog-sidebar-list">
+                        {% for similar in similar_articles %}
+                        <li>
+                            <a href="{{ similar.get_absolute_url }}">{{ similar.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </aside>
+        </div>
+    </div>
+</article>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Besoin d'aide pour votre projet web ?</h2>
+            <p class="cta-description">
+                Contactez-nous pour discuter de vos besoins et obtenir un devis personnalisé.
+            </p>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-large">
+                Nous contacter
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

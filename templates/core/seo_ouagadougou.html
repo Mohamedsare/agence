@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title">SEO Ouagadougou - Référencement Naturel</h1>
+        <p class="page-description">
+            Améliorez votre visibilité sur Google à Ouagadougou avec nos services de référencement naturel
+        </p>
+    </div>
+</section>
+
+<section class="seo-page">
+    <div class="container">
+        <div class="seo-content reveal-fade-up">
+            <h2>Pourquoi le SEO est important à Ouagadougou ?</h2>
+            <p>
+                Le référencement naturel (SEO) est essentiel pour que votre entreprise soit visible sur Google 
+                lorsque vos clients potentiels à Ouagadougou recherchent vos services. Avec l'augmentation de 
+                l'utilisation d'Internet au Burkina Faso, être bien positionné sur les moteurs de recherche 
+                devient un avantage concurrentiel majeur.
+            </p>
+
+            <h2>Nos services SEO à Ouagadougou</h2>
+            <ul>
+                <li>Audit SEO complet de votre site web</li>
+                <li>Optimisation technique (vitesse, mobile, structure)</li>
+                <li>Optimisation du contenu pour les mots-clés locaux</li>
+                <li>Création de contenu optimisé SEO</li>
+                <li>Stratégie de liens (netlinking)</li>
+                <li>Suivi et reporting mensuel des performances</li>
+            </ul>
+
+            <h2>Résultats mesurables</h2>
+            <p>
+                Nous vous accompagnons pour améliorer votre positionnement sur Google et augmenter votre 
+                trafic organique. Nos clients voient généralement une amélioration significative de leur 
+                visibilité en ligne dans les 3 à 6 mois suivant le début de notre intervention.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Boostez votre visibilité à Ouagadougou</h2>
+            <p class="cta-description">
+                Contactez-nous pour un audit SEO gratuit et découvrez comment améliorer votre référencement.
+            </p>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-large">
+                Demander un audit SEO gratuit
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
