@@ -266,11 +266,18 @@
         // Close all items
         faqItems.forEach(otherItem => {
           otherItem.classList.remove('active');
+          const otherQuestion = otherItem.querySelector('.faq-question');
+          if (otherQuestion) {
+            otherQuestion.setAttribute('aria-expanded', 'false');
+          }
         });
         
         // Open clicked item if it wasn't active
         if (!isActive) {
           item.classList.add('active');
+          question.setAttribute('aria-expanded', 'true');
+        } else {
+          question.setAttribute('aria-expanded', 'false');
         }
       });
     });
@@ -788,8 +795,234 @@
   }
 
   // ============================================
+  // Technologies Carousel with Manual Scroll
+  // ============================================
+  function initTechnologiesCarousel() {
+    const wrapper = $('.technologies-carousel-wrapper');
+    const track = $('.technologies-track');
+    if (!wrapper || !track) return;
+
+    let isDragging = false;
+    let isPaused = false;
+    let startX = 0;
+    let currentX = 0;
+    let currentPosition = 0;
+    let animationStartTime = 0;
+    let animationId = null;
+    let resumeTimeout = null;
+
+    // Get current transform value from computed style
+    const getCurrentTransform = () => {
+      const style = window.getComputedStyle(track);
+      const matrix = style.transform || style.webkitTransform;
+      if (matrix === 'none') return 0;
+      const values = matrix.split('(')[1].split(')')[0].split(',');
+      return parseFloat(values[4]) || 0;
+    };
+
+    // Set transform position
+    const setPosition = (position) => {
+      track.style.transform = `translateX(${position}px)`;
+      currentPosition = position;
+    };
+
+    // Normalize position to stay within bounds (infinite loop)
+    const normalizePosition = (pos) => {
+      const trackWidth = track.scrollWidth / 2;
+      if (pos > 0) {
+        return pos - trackWidth;
+      } else if (pos < -trackWidth) {
+        return pos + trackWidth;
+      }
+      return pos;
+    };
+
+    // Update animation position
+    const updateAnimation = () => {
+      if (!isDragging && !isPaused) {
+        const now = Date.now();
+        const elapsed = (now - animationStartTime) / 1000;
+        const totalDuration = 30;
+        const progress = (elapsed % totalDuration) / totalDuration;
+        const trackWidth = track.scrollWidth / 2;
+        const newPosition = normalizePosition(-progress * trackWidth);
+        
+        setPosition(newPosition);
+        animationId = requestAnimationFrame(updateAnimation);
+      }
+    };
+
+    // Start animation
+    const startAnimation = () => {
+      if (isDragging || isPaused) return;
+      animationStartTime = Date.now() - (Math.abs(currentPosition) / (track.scrollWidth / 2)) * 30000;
+      if (animationId) cancelAnimationFrame(animationId);
+      updateAnimation();
+    };
+
+    // Stop animation
+    const stopAnimation = () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    };
+
+    // Resume animation after delay
+    const resumeAnimation = (delay = 2000) => {
+      if (resumeTimeout) clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => {
+        if (!isDragging) {
+          isPaused = false;
+          wrapper.classList.remove('paused');
+          startAnimation();
+        }
+      }, delay);
+    };
+
+    // Mouse events
+    const handleMouseDown = (e) => {
+      isDragging = true;
+      isPaused = true;
+      wrapper.classList.add('paused');
+      startX = e.pageX;
+      currentX = startX;
+      currentPosition = getCurrentTransform();
+      track.classList.add('dragging');
+      stopAnimation();
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.pageX;
+      const deltaX = currentX - startX;
+      const newPosition = normalizePosition(currentPosition + deltaX);
+      
+      setPosition(newPosition);
+    };
+
+    const handleMouseUp = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      track.classList.remove('dragging');
+      currentPosition = getCurrentTransform();
+      
+      // Resume after delay
+      resumeAnimation(2000);
+    };
+
+    // Touch events
+    const handleTouchStart = (e) => {
+      isDragging = true;
+      isPaused = true;
+      wrapper.classList.add('paused');
+      startX = e.touches[0].pageX;
+      currentX = startX;
+      currentPosition = getCurrentTransform();
+      track.classList.add('dragging');
+      stopAnimation();
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      currentX = e.touches[0].pageX;
+      const deltaX = currentX - startX;
+      const newPosition = normalizePosition(currentPosition + deltaX);
+      
+      setPosition(newPosition);
+    };
+
+    const handleTouchEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      track.classList.remove('dragging');
+      currentPosition = getCurrentTransform();
+      
+      // Resume after delay
+      resumeAnimation(2000);
+    };
+
+    // Pause on hover
+    wrapper.addEventListener('mouseenter', () => {
+      if (!isDragging) {
+        isPaused = true;
+        wrapper.classList.add('paused');
+        stopAnimation();
+      }
+    });
+
+    wrapper.addEventListener('mouseleave', () => {
+      if (!isDragging) {
+        resumeAnimation(1000);
+      }
+    });
+
+    // Mouse drag events
+    track.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    // Touch drag events
+    track.addEventListener('touchstart', handleTouchStart, { passive: false });
+    track.addEventListener('touchmove', handleTouchMove, { passive: false });
+    track.addEventListener('touchend', handleTouchEnd);
+
+    // Wheel scroll
+    wrapper.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      isPaused = true;
+      wrapper.classList.add('paused');
+      stopAnimation();
+      
+      const delta = e.deltaY;
+      const currentPos = getCurrentTransform();
+      const newPosition = normalizePosition(currentPos - delta * 0.5);
+      
+      setPosition(newPosition);
+      
+      // Resume after delay
+      resumeAnimation(2000);
+    }, { passive: false });
+
+    // Initialize animation
+    currentPosition = 0;
+    setPosition(0);
+    startAnimation();
+  }
+
+  // ============================================
   // Initialize everything when DOM is ready
   // ============================================
+  // ============================================
+  // FAQ Pagination Scroll
+  // ============================================
+  function initFAQPaginationScroll() {
+    // Si on arrive sur la page avec un paramètre ?page= et #faq dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    const hash = window.location.hash;
+    
+    if (pageParam && hash === '#faq') {
+      // Attendre que le DOM soit chargé
+      setTimeout(() => {
+        const faqSection = $('#faq');
+        if (faqSection) {
+          const offset = 80; // Navbar height
+          const targetPosition = faqSection.getBoundingClientRect().top + window.pageYOffset - offset;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
+  }
+
   function init() {
     // Core functionality
     initScrollProgress();
@@ -803,6 +1036,7 @@
     initQuoteModal();
     initAnimatedCounter();
     initFAQ();
+    initFAQPaginationScroll();
 
     // Animations (only if motion is not reduced)
     if (!prefersReducedMotion) {
@@ -815,6 +1049,7 @@
     // Sliders
     initTestimonialsSlider();
     initPortfolioSlider();
+    initTechnologiesCarousel();
 
     // Handle resize for responsive features
     let resizeTimeout;

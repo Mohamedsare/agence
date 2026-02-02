@@ -90,15 +90,15 @@
             </div>
             <div class="about-vision-stats reveal-fade-up">
                 <div class="vision-stat-item">
-                    <div class="vision-stat-number" data-target="50">0</div>
+                    <div class="vision-stat-number" data-target="{% if company_stats %}{{ company_stats.projects_count }}{% else %}0{% endif %}">0</div>
                     <div class="vision-stat-label">Projets réalisés</div>
                 </div>
                 <div class="vision-stat-item">
-                    <div class="vision-stat-number" data-target="5">0</div>
+                    <div class="vision-stat-number" data-target="{% if company_stats %}{{ company_stats.years_experience }}{% else %}0{% endif %}">0</div>
                     <div class="vision-stat-label">Années d'expérience</div>
                 </div>
                 <div class="vision-stat-item">
-                    <div class="vision-stat-number" data-target="98">0</div>
+                    <div class="vision-stat-number" data-target="{% if company_stats %}{{ company_stats.client_satisfaction }}{% else %}0{% endif %}">0</div>
                     <div class="vision-stat-label">% Clients satisfaits</div>
                 </div>
             </div>

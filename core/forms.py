@@ -6,11 +6,11 @@ class ContactForm(forms.ModelForm):
     """Formulaire de contact."""
     BUDGET_CHOICES = [
         ('', 'Sélectionnez un budget'),
-        ('< 500 000 FCFA', 'Moins de 500 000 FCFA'),
-        ('500 000 - 1 000 000 FCFA', '500 000 - 1 000 000 FCFA'),
-        ('1 000 000 - 2 000 000 FCFA', '1 000 000 - 2 000 000 FCFA'),
-        ('2 000 000 - 5 000 000 FCFA', '2 000 000 - 5 000 000 FCFA'),
-        ('> 5 000 000 FCFA', 'Plus de 5 000 000 FCFA'),
+        ('< 300 000 FCFA', 'Moins de 300 000 FCFA'),
+        ('300 000 – 700 000 FCFA', '300 000 – 700 000 FCFA'),
+        ('700 000 – 1 500 000 FCFA', '700 000 – 1 500 000 FCFA'),
+        ('1 500 000 – 3 000 000 FCFA', '1 500 000 – 3 000 000 FCFA'),
+        ('> 3 000 000 FCFA', 'Plus de 3 000 000 FCFA'),
     ]
 
     budget = forms.ChoiceField(

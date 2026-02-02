@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Article, Category, Tag, ContactMessage, Service,
-    TeamMember, Testimonial, Partner, Portfolio
+    TeamMember, Testimonial, Partner, Portfolio, Technology, AnonymousCTA, WhatsAppConfig, FAQ, CompanyStats
 )
 
 
@@ -96,3 +96,103 @@ class PortfolioAdmin(admin.ModelAdmin):
             'fields': ('order', 'active')
         }),
     )
+
+
+@admin.register(Technology)
+class TechnologyAdmin(admin.ModelAdmin):
+    list_display = ['name', 'order', 'active', 'created_at']
+    list_filter = ['active', 'created_at']
+    search_fields = ['name']
+    ordering = ['order', 'name']
+    fieldsets = (
+        ('Informations principales', {
+            'fields': ('name', 'logo')
+        }),
+        ('Affichage', {
+            'fields': ('order', 'active')
+        }),
+    )
+
+
+@admin.register(AnonymousCTA)
+class AnonymousCTAAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'active', 'updated_at']
+    list_filter = ['active', 'updated_at']
+    fieldsets = (
+        ('Image', {
+            'fields': ('image',)
+        }),
+        ('Affichage', {
+            'fields': ('active',)
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Permettre l'ajout seulement s'il n'y a pas encore d'instance
+        return AnonymousCTA.objects.count() == 0
+    
+    def has_delete_permission(self, request, obj=None):
+        # Empêcher la suppression pour garder au moins une instance
+        return False
+
+
+@admin.register(WhatsAppConfig)
+class WhatsAppConfigAdmin(admin.ModelAdmin):
+    list_display = ['phone_number', 'active', 'updated_at']
+    list_filter = ['active', 'updated_at']
+    fieldsets = (
+        ('Configuration WhatsApp', {
+            'fields': ('phone_number', 'message'),
+            'description': 'Configurez le numéro WhatsApp et le message par défaut pour le bouton flottant.'
+        }),
+        ('Affichage', {
+            'fields': ('active',)
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Permettre l'ajout seulement s'il n'y a pas encore d'instance
+        return WhatsAppConfig.objects.count() == 0
+    
+    def has_delete_permission(self, request, obj=None):
+        # Empêcher la suppression pour garder au moins une instance
+        return False
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ['question', 'order', 'active', 'created_at']
+    list_filter = ['active', 'created_at']
+    search_fields = ['question', 'answer']
+    ordering = ['order', 'question']
+    fieldsets = (
+        ('Contenu', {
+            'fields': ('question', 'answer')
+        }),
+        ('Affichage', {
+            'fields': ('order', 'active')
+        }),
+    )
+
+
+@admin.register(CompanyStats)
+class CompanyStatsAdmin(admin.ModelAdmin):
+    list_display = ['projects_count', 'years_experience', 'client_satisfaction', 'active', 'updated_at']
+    list_filter = ['active', 'updated_at']
+    fieldsets = (
+        ('Statistiques', {
+            'fields': ('projects_count', 'years_experience', 'client_satisfaction'),
+            'description': 'Modifiez les statistiques affichées sur la page "À propos".'
+        }),
+        ('Affichage', {
+            'fields': ('active',)
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Permettre l'ajout seulement s'il n'y a pas encore d'instance
+        return CompanyStats.objects.count() == 0
+    
+    def has_delete_permission(self, request, obj=None):
+        # Empêcher la suppression pour garder au moins une instance
+        return False

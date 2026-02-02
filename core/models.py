@@ -232,3 +232,129 @@ class Portfolio(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.company or 'Sans entreprise'}"
+
+
+class Technology(models.Model):
+    """Technologie utilisée par l'agence."""
+    name = models.CharField(max_length=100, verbose_name="Nom")
+    logo = models.ImageField(upload_to='technologies/', verbose_name="Logo")
+    order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
+    active = models.BooleanField(default=True, verbose_name="Actif")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
+
+    class Meta:
+        verbose_name = "Technologie"
+        verbose_name_plural = "Technologies"
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
+
+class AnonymousCTA(models.Model):
+    """Section CTA anonyme de la page d'accueil."""
+    image = models.ImageField(upload_to='anonymous_cta/', verbose_name="Image du cercle")
+    active = models.BooleanField(default=True, verbose_name="Actif")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour")
+
+    class Meta:
+        verbose_name = "Section CTA Anonyme"
+        verbose_name_plural = "Section CTA Anonyme"
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        return "Section CTA Anonyme"
+
+    def save(self, *args, **kwargs):
+        # S'assurer qu'il n'y a qu'une seule instance active
+        if self.active:
+            AnonymousCTA.objects.exclude(pk=self.pk).update(active=False)
+        super().save(*args, **kwargs)
+
+
+class WhatsAppConfig(models.Model):
+    """Configuration WhatsApp pour le bouton flottant."""
+    phone_number = models.CharField(
+        max_length=20,
+        verbose_name="Numéro WhatsApp",
+        help_text="Format: +2266474200 (avec indicatif pays, sans espaces)"
+    )
+    message = models.CharField(
+        max_length=200,
+        default="Bonjour, je souhaite obtenir plus d'informations sur vos services.",
+        verbose_name="Message par défaut",
+        help_text="Message qui sera pré-rempli lors du clic sur le bouton"
+    )
+    active = models.BooleanField(default=True, verbose_name="Actif")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour")
+
+    class Meta:
+        verbose_name = "Configuration WhatsApp"
+        verbose_name_plural = "Configuration WhatsApp"
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        return f"WhatsApp: {self.phone_number}"
+
+    def save(self, *args, **kwargs):
+        # S'assurer qu'il n'y a qu'une seule instance active
+        if self.active:
+            WhatsAppConfig.objects.exclude(pk=self.pk).update(active=False)
+        super().save(*args, **kwargs)
+    
+    def get_whatsapp_url(self):
+        """Génère l'URL WhatsApp avec le message encodé."""
+        import urllib.parse
+        message_encoded = urllib.parse.quote(self.message)
+        phone_clean = self.phone_number.replace(' ', '').replace('-', '').replace('(', '').replace(')', '')
+        return f"https://wa.me/{phone_clean}?text={message_encoded}"
+
+
+class FAQ(models.Model):
+    """Questions fréquemment posées (FAQ)."""
+    question = models.CharField(max_length=200, verbose_name="Question")
+    answer = models.TextField(verbose_name="Réponse")
+    order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
+    active = models.BooleanField(default=True, verbose_name="Actif")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour")
+
+    class Meta:
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQs"
+        ordering = ['order', 'question']
+
+    def __str__(self):
+        return self.question
+
+
+class CompanyStats(models.Model):
+    """Statistiques de l'entreprise pour la page À propos."""
+    projects_count = models.IntegerField(default=0, verbose_name="Projets réalisés")
+    years_experience = models.IntegerField(default=0, verbose_name="Années d'expérience")
+    client_satisfaction = models.IntegerField(
+        default=0,
+        verbose_name="% Clients satisfaits",
+        help_text="Pourcentage de satisfaction client (0-100)"
+    )
+    active = models.BooleanField(default=True, verbose_name="Actif")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour")
+
+    class Meta:
+        verbose_name = "Statistiques de l'entreprise"
+        verbose_name_plural = "Statistiques de l'entreprise"
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        return f"Statistiques: {self.projects_count} projets, {self.years_experience} ans, {self.client_satisfaction}%"
+
+    def save(self, *args, **kwargs):
+        # S'assurer qu'il n'y a qu'une seule instance active
+        if self.active:
+            CompanyStats.objects.exclude(pk=self.pk).update(active=False)
+        # Valider le pourcentage de satisfaction
+        if self.client_satisfaction < 0:
+            self.client_satisfaction = 0
+        elif self.client_satisfaction > 100:
+            self.client_satisfaction = 100
+        super().save(*args, **kwargs)

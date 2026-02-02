@@ -79,7 +79,7 @@
                 </h1>
                 <p class="hero-subtitle">
                     Nous créons des sites web modernes, performants et optimisés pour le SEO. 
-                    Des solutions sur mesure à coût maîtrisé pour votre entreprise à Ouagadougou et Bobo-Dioulasso.
+                    Des solutions sur mesure à coût maîtrisé pour votre entreprise partout au Burkina Faso (Ouagadougou , Bobo-Dioulasso, etc.)  .
                 </p>
                 <div class="hero-cta">
                     <a href="{% url 'contact' %}" class="btn btn-primary btn-large magnetic">
@@ -207,11 +207,12 @@
             {% for service in services %}
             <article class="service-card reveal-fade-up" data-delay="{{ forloop.counter0|add:'0.1' }}">
                 <div class="service-card-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                        <line x1="8" y1="21" x2="16" y2="21"></line>
-                        <line x1="12" y1="17" x2="12" y2="21"></line>
-                    </svg>
+                    {% if service.featured_image %}
+                    
+                        <img src="{{ service.featured_image.url }}" alt="{{ service.get_name_display }}" class="service-card-image">
+                    {% else %}
+                        <img src="{% static 'images/service-default.jpg' %}" alt="{{ service.get_name_display }}" class="service-card-image">
+                    {% endif %}
                 </div>
                 <h3 class="service-card-title">{{ service.get_name_display }}</h3>
                 <p class="service-card-description">{{ service.short_description }}</p>
@@ -228,6 +229,90 @@
             <a href="{% url 'services_list' %}" class="btn btn-outline">
                 Voir tous les services
             </a>
+        </div>
+    </div>
+</section>
+
+{# Wave Divider #}
+<div class="wave-divider wave-divider-top">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+{# Technologies Section #}
+<section class="technologies-section" id="technologies">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Nos Technologies</span>
+            <h2 class="section-title">Technologies Utilisées</h2>
+            <p class="section-description">
+                Nous utilisons les technologies les plus modernes et adaptées en fonction des besoins spécifiques de votre entreprise. 
+                Notre expertise couvre l'ensemble de la stack technologique, du frontend au backend, en passant par les bases de données, 
+                le déploiement et les outils de développement.
+            </p>
+        </div>
+        
+        <div class="technologies-carousel-wrapper reveal-fade-up">
+            <div class="technologies-carousel">
+                <div class="technologies-track">
+                    {% for technology in technologies %}
+                    <div class="technology-item" data-tech="{{ technology.name }}">
+                        <div class="technology-icon">
+                            <img src="{{ technology.logo.url }}" alt="{{ technology.name }}" onerror="this.style.display='none';">
+                        </div>
+                        <span class="technology-name">{{ technology.name }}</span>
+                    </div>
+                    {% endfor %}
+                    
+                    {# Dupliquer les technologies pour l'effet infini #}
+                    {% for technology in technologies %}
+                    <div class="technology-item" data-tech="{{ technology.name }}">
+                        <div class="technology-icon">
+                            <img src="{{ technology.logo.url }}" alt="{{ technology.name }}" onerror="this.style.display='none';">
+                        </div>
+                        <span class="technology-name">{{ technology.name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Anonymous Section - Call to Action #}
+<section class="anonymous-cta-section">
+    <div class="container">
+        <div class="anonymous-cta-wrapper">
+            <div class="anonymous-cta-content">
+                <div class="anonymous-cta-badges">
+                    <div class="anonymous-cta-badge">Entrepreneurs &</div>
+                    <div class="anonymous-cta-badge">Startups Ambitieux</div>
+                </div>
+                <p class="anonymous-cta-text">
+                    Vous êtes un entrepreneur ou une startup ambitieuse, vous ne savez pas par où commencer pour lancer votre présence en ligne mais vous êtes motivé plus que jamais ? L'écosystème SiraWeb est fait pour vous accompagner dans votre projet digital !
+                </p>
+                <a href="{% url 'contact' %}" class="btn btn-primary anonymous-cta-button">
+                    DÉCOUVRIR NOS SERVICES
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="anonymous-cta-image">
+                <div class="anonymous-cta-image-wrapper">
+                    <div class="anonymous-cta-image-placeholder">
+                        {% if anonymous_cta and anonymous_cta.image %}
+                            <img src="{{ anonymous_cta.image.url }}" alt="Entrepreneurs & Startups Ambitieux" class="anonymous-cta-img">
+                        {% else %}
+                            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="100" cy="100" r="80" fill="var(--color-bg-alt)"/>
+                                <path d="M70 100L90 120L130 80" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -328,46 +413,59 @@
     </svg>
 </div>
 
-{# Portfolio Section #}
-<section class="portfolio-section" id="portfolio">
+{# FAQ Section #}
+{% if faqs %}
+<section class="faq-section" id="faq">
     <div class="container">
         <div class="section-header reveal-fade-up">
-            <span class="section-label">Nos Réalisations</span>
-            <h2 class="section-title">Des projets qui marquent</h2>
+            <span class="section-label">FAQ</span>
+            <h2 class="section-title">Questions fréquemment posées</h2>
             <p class="section-description">
-                Découvrez quelques-uns de nos projets réalisés pour des entreprises au Burkina Faso.
+                Trouvez rapidement les réponses aux questions que vous vous posez sur nos services web au Burkina Faso.
             </p>
         </div>
-        <div class="portfolio-grid">
-            {# Placeholder projects - to be replaced with actual portfolio model #}
-            <div class="portfolio-item reveal-fade-up">
-                <div class="portfolio-image">
-                    <div class="portfolio-placeholder"></div>
-                </div>
-                <div class="portfolio-content">
-                    <h3 class="portfolio-title">Site E-commerce</h3>
-                    <p class="portfolio-category">E-commerce</p>
-                </div>
-            </div>
-            <div class="portfolio-item reveal-fade-up">
-                <div class="portfolio-image">
-                    <div class="portfolio-placeholder"></div>
-                </div>
-                <div class="portfolio-content">
-                    <h3 class="portfolio-title">Site Institutionnel</h3>
-                    <p class="portfolio-category">Institutionnel</p>
+        <div class="faq-list">
+            {% for faq in faqs %}
+            <div class="faq-item reveal-fade-up">
+                <button class="faq-question" type="button" aria-expanded="false">
+                    <span>{{ faq.question }}</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <p>{{ faq.answer|linebreaks }}</p>
                 </div>
             </div>
-            <div class="portfolio-item reveal-fade-up">
-                <div class="portfolio-image">
-                    <div class="portfolio-placeholder"></div>
-                </div>
-                <div class="portfolio-content">
-                    <h3 class="portfolio-title">Landing Page</h3>
-                    <p class="portfolio-category">Marketing</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        
+        {# Pagination #}
+        {% if faqs.has_other_pages %}
+        <nav class="pagination pagination-faq" aria-label="Pagination FAQ">
+            {% if faqs.has_previous %}
+            <a href="?page={{ faqs.previous_page_number }}#faq" class="pagination-link pagination-prev">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Précédent
+            </a>
+            {% endif %}
+
+            <span class="pagination-info">
+                Page {{ faqs.number }} sur {{ faqs.paginator.num_pages }}
+            </span>
+
+            {% if faqs.has_next %}
+            <a href="?page={{ faqs.next_page_number }}#faq" class="pagination-link pagination-next">
+                Suivant
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            {% endif %}
+        </nav>
+        {% endif %}
     </div>
 </section>
 
@@ -377,6 +475,7 @@
         <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
     </svg>
 </div>
+{% endif %}
 
 {# Testimonials Section #}
 {% if testimonials %}

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
-from .models import Article, Category, Tag, Service, TeamMember, Testimonial, Partner, Portfolio
+from .models import Article, Category, Tag, Service, TeamMember, Testimonial, Partner, Portfolio, Technology, AnonymousCTA, FAQ, CompanyStats
 from .forms import ContactForm
 
 
@@ -14,11 +14,24 @@ def home(request):
     testimonials = Testimonial.objects.filter(active=True).order_by('order')[:6]
     partners = Partner.objects.filter(active=True).order_by('order')[:8]
     portfolio_projects = Portfolio.objects.filter(active=True).order_by('order')[:4]
+    technologies = Technology.objects.filter(active=True).order_by('order', 'name')
+    services = Service.objects.filter(active=True).order_by('order', 'name')[:6]
+    anonymous_cta = AnonymousCTA.objects.filter(active=True).first()
+    
+    # Pagination des FAQs (8 par page)
+    faqs_list = FAQ.objects.filter(active=True).order_by('order', 'question')
+    paginator = Paginator(faqs_list, 8)
+    page_number = request.GET.get('page')
+    faqs = paginator.get_page(page_number)
     
     context = {
         'testimonials': testimonials,
         'partners': partners,
         'portfolio_projects': portfolio_projects,
+        'technologies': technologies,
+        'services': services,
+        'anonymous_cta': anonymous_cta,
+        'faqs': faqs,
         'meta_title': 'SiraWeb - Agence Web au Burkina Faso | Création de Sites Web Modernes',
         'meta_description': 'Agence web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne. Services à Ouagadougou et Bobo-Dioulasso.',
     }
@@ -56,9 +69,11 @@ def service_detail(request, slug):
 def about(request):
     """Page À propos."""
     team_members = TeamMember.objects.filter(active=True).order_by('order', 'name')
+    company_stats = CompanyStats.objects.filter(active=True).first()
     
     context = {
         'team_members': team_members,
+        'company_stats': company_stats,
         'meta_title': 'À Propos - SiraWeb | Agence Web Burkina Faso',
         'meta_description': 'Découvrez SiraWeb, votre agence web au Burkina Faso. Notre équipe experte vous accompagne dans vos projets web à Ouagadougou et Bobo-Dioulasso.',
     }
