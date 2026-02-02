@@ -1,0 +1,103 @@
+[
+{
+  "model": "core.faq",
+  "pk": 1,
+  "fields": {
+    "question": "Qui est SiraWeb ?",
+    "answer": "SiraWeb est une agence web spécialisée dans la création de sites web modernes, performants et optimisés SEO, dédiée aux entreprises, entrepreneurs et organisations au Burkina Faso et en Afrique francophone.",
+    "order": 1,
+    "active": true,
+    "created_at": "2026-02-02T00:44:17.650Z",
+    "updated_at": "2026-02-02T00:44:39.675Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 2,
+  "fields": {
+    "question": "Pourquoi choisir une agence locale comme SiraWeb ?",
+    "answer": "Travailler avec SiraWeb, c'est bénéficier :\n• d'une compréhension du marché burkinabè\n• de solutions adaptées aux réalités locales\n• d'un accompagnement humain et réactif\n• de tarifs cohérents avec le pouvoir économique local",
+    "order": 2,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.686Z",
+    "updated_at": "2026-02-02T00:44:39.686Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 3,
+  "fields": {
+    "question": "Quels types de sites web proposez-vous ?",
+    "answer": "Nous réalisons :\n• Sites vitrines professionnels\n• Sites web d'entreprise\n• Sites e-commerce\n• Landing pages de conversion\n• Refonte et modernisation de sites existants",
+    "order": 3,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.693Z",
+    "updated_at": "2026-02-02T00:44:39.693Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 4,
+  "fields": {
+    "question": "Les sites sont-ils compatibles mobile ?",
+    "answer": "Oui. Tous nos sites sont 100 % responsive (mobile-first) et parfaitement adaptés aux smartphones et tablettes.",
+    "order": 4,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.700Z",
+    "updated_at": "2026-02-02T00:44:39.700Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 5,
+  "fields": {
+    "question": "Proposez-vous le référencement naturel (SEO) ?",
+    "answer": "Oui. Chaque site est conçu avec :\n• structure SEO optimisée\n• chargement rapide\n• balisage propre\n• optimisation Google (SEO local Burkina Faso)",
+    "order": 5,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.707Z",
+    "updated_at": "2026-02-02T00:44:39.707Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 6,
+  "fields": {
+    "question": "Pouvez-vous gérer la maintenance du site ?",
+    "answer": "Oui. Nous proposons des formules de maintenance :\n• mises à jour techniques\n• sécurité\n• sauvegardes\n• assistance continue",
+    "order": 6,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.712Z",
+    "updated_at": "2026-02-02T00:44:39.712Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 7,
+  "fields": {
+    "question": "Combien de temps faut-il pour créer un site web ?",
+    "answer": "En moyenne :\n• Site vitrine : 7 à 14 jours\n• Site e-commerce : 14 à 30 jours\n(selon la complexité du projet)",
+    "order": 7,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.720Z",
+    "updated_at": "2026-02-02T00:44:39.720Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 8,
+  "fields": {
+    "question": "Comment se déroule un projet chez SiraWeb ?",
+    "answer": "1. Analyse de vos besoins\n2. Proposition claire (design + fonctionnalités)\n3. Validation\n4. Développement\n5. Tests & mise en ligne\n6. Suivi et accompagnement",
+    "order": 8,
+    "active": true,
+    "created_at": "2026-02-02T00:44:39.727Z",
+    "updated_at": "2026-02-02T00:44:39.727Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 9,
+  "fields": {
+    "question": "Quels sont vos tarifs ?",
+    "answer": 

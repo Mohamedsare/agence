@@ -18,13 +18,16 @@ class BlogSitemap(Sitemap):
 class ServiceSitemap(Sitemap):
     """Sitemap pour les services."""
     changefreq = 'monthly'
-    priority = 0.8
+    priority = 0.9  # Priorité élevée pour les services
 
     def items(self):
         return Service.objects.filter(active=True)
 
     def lastmod(self, obj):
         return obj.updated_at if hasattr(obj, 'updated_at') else None
+    
+    def location(self, obj):
+        return obj.get_absolute_url()
 
 
 class StaticSitemap(Sitemap):

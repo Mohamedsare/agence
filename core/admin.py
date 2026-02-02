@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Article, Category, Tag, ContactMessage, Service,
-    TeamMember, Testimonial, Partner, Portfolio, Technology, AnonymousCTA, WhatsAppConfig, FAQ, CompanyStats
+    TeamMember, Testimonial, Partner, Portfolio, Technology, AnonymousCTA, WhatsAppConfig, FAQ, CompanyStats, PageView
 )
 
 
@@ -195,4 +195,21 @@ class CompanyStatsAdmin(admin.ModelAdmin):
     
     def has_delete_permission(self, request, obj=None):
         # Empêcher la suppression pour garder au moins une instance
+        return False
+
+
+@admin.register(PageView)
+class PageViewAdmin(admin.ModelAdmin):
+    list_display = ['path', 'ip_address', 'country', 'city', 'created_at', 'is_bot']
+    list_filter = ['is_bot', 'country_code', 'created_at']
+    search_fields = ['path', 'ip_address', 'country', 'city']
+    readonly_fields = ['path', 'ip_address', 'country', 'country_code', 'city', 'user_agent', 'referer', 'is_bot', 'created_at']
+    date_hierarchy = 'created_at'
+    
+    def has_add_permission(self, request):
+        # Empêcher l'ajout manuel, les visites sont trackées automatiquement
+        return False
+    
+    def has_change_permission(self, request, obj=None):
+        # Les visites sont en lecture seule
         return False

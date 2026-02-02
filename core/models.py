@@ -358,3 +358,29 @@ class CompanyStats(models.Model):
         elif self.client_satisfaction > 100:
             self.client_satisfaction = 100
         super().save(*args, **kwargs)
+
+
+class PageView(models.Model):
+    """Statistiques de visite des pages."""
+    path = models.CharField(max_length=500, verbose_name="Chemin de la page")
+    ip_address = models.GenericIPAddressField(verbose_name="Adresse IP")
+    country = models.CharField(max_length=100, blank=True, verbose_name="Pays")
+    country_code = models.CharField(max_length=2, blank=True, verbose_name="Code pays")
+    city = models.CharField(max_length=100, blank=True, verbose_name="Ville")
+    user_agent = models.TextField(blank=True, verbose_name="User Agent")
+    referer = models.URLField(blank=True, verbose_name="Référent")
+    is_bot = models.BooleanField(default=False, verbose_name="Bot")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de visite")
+    
+    class Meta:
+        verbose_name = "Visite"
+        verbose_name_plural = "Visites"
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['-created_at']),
+            models.Index(fields=['path']),
+            models.Index(fields=['country_code']),
+        ]
+    
+    def __str__(self):
+        return f"{self.path} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"

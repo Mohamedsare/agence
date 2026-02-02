@@ -20,6 +20,13 @@
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-image.jpg' %}{% endblock %}">
     <meta property="og:site_name" content="SiraWeb">
     <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="fr_BF">
+    
+    {# SEO Local Burkina Faso #}
+    <meta name="geo.region" content="BF">
+    <meta name="geo.placename" content="Ouagadougou">
+    <meta name="geo.position" content="12.3714;-1.5197">
+    <meta name="ICBM" content="12.3714, -1.5197">
     
     {# Twitter Card #}
     <meta name="twitter:card" content="summary_large_image">
@@ -28,8 +35,9 @@
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-image.jpg' %}{% endblock %}">
     
     {# Favicon & PWA #}
-    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/logo.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}">
     <link rel="manifest" href="{% static 'manifest.json' %}">
     <meta name="theme-color" content="#0F172A">
     
@@ -41,17 +49,63 @@
     {# Styles #}
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     
-    {# Schema JSON-LD #}
+    {# Schema JSON-LD Global Organization #}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SiraWeb",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+      "description": "Agence Web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ouagadougou",
+        "addressRegion": "Centre",
+        "addressCountry": "BF"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+226-64-71-20-44",
+        "contactType": "customer service",
+        "email": "contact@siraweb.bf",
+        "areaServed": "BF",
+        "availableLanguage": "fr"
+      },
+      "sameAs": [
+        "https://www.facebook.com/siraweb",
+        "https://www.linkedin.com/company/siraweb"
+      ]
+    }
+    </script>
+    {# Schema JSON-LD Page Specific #}
     {% block schema_ld %}{% endblock %}
 </head>
-<body>
+<body class="{% if request.resolver_match.url_name == 'statistics' %}dashboard-page{% endif %}">
+    {# Preloader #}
+    <div class="preloader" id="preloader" aria-label="Chargement en cours">
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <img src="{% static 'images/logo.png' %}" alt="SiraWeb" class="preloader-logo-img">
+            </div>
+            <div class="preloader-spinner">
+                <div class="preloader-spinner-ring"></div>
+                <div class="preloader-spinner-ring"></div>
+                <div class="preloader-spinner-ring"></div>
+            </div>
+            <p class="preloader-text">Chargement...</p>
+        </div>
+    </div>
+    
     {# Scroll Progress Bar #}
+    {% if request.resolver_match.url_name != 'statistics' %}
     <div class="scroll-progress" role="progressbar" aria-label="Progression du scroll" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="scroll-progress-bar"></div>
     </div>
+    {% endif %}
     
     {# Navbar - incluse dans hero sur page d'accueil, normale ailleurs #}
-    {% if request.resolver_match.url_name != 'home' %}
+    {% if request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'statistics' %}
     {% include 'partials/navbar.html' %}
     {% endif %}
     
@@ -73,13 +127,19 @@
     </main>
     
     {# Footer #}
+    {% if request.resolver_match.url_name != 'statistics' %}
     {% include 'partials/footer.html' %}
+    {% endif %}
     
     {# Quote Modal #}
+    {% if request.resolver_match.url_name != 'statistics' %}
     {% include 'partials/quote_modal.html' %}
+    {% endif %}
     
     {# WhatsApp Float Button #}
+    {% if request.resolver_match.url_name != 'statistics' %}
     {% include 'partials/whatsapp_button.html' %}
+    {% endif %}
     
     {# Scripts #}
     <script src="{% static 'js/main.js' %}" defer></script>

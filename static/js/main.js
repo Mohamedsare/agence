@@ -17,6 +17,40 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ============================================
+  // Preloader
+  // ============================================
+  function initPreloader() {
+    const preloader = $('#preloader');
+    if (!preloader) return;
+
+    // Fonction pour masquer le preloader
+    const hidePreloader = () => {
+      preloader.classList.add('hidden');
+      
+      // Retirer le preloader du DOM après l'animation
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        // Permettre le scroll du body
+        document.body.style.overflow = '';
+      }, 500);
+    };
+
+    // Masquer le preloader quand la page est chargée
+    if (document.readyState === 'complete') {
+      // La page est déjà chargée
+      setTimeout(hidePreloader, 300);
+    } else {
+      // Attendre que la page soit complètement chargée
+      window.addEventListener('load', () => {
+        setTimeout(hidePreloader, 300);
+      });
+    }
+
+    // Empêcher le scroll pendant le chargement
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================
   // Scroll Progress Bar
   // ============================================
   function initScrollProgress() {
@@ -1024,6 +1058,9 @@
   }
 
   function init() {
+    // Preloader (must be first)
+    initPreloader();
+    
     // Core functionality
     initScrollProgress();
     initNavbar();

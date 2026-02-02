@@ -33,9 +33,11 @@
             <div class="footer-section">
                 <h4 class="footer-heading">Services</h4>
                 <ul class="footer-links">
-                    {% for service in services|slice:":5" %}
-                    <li><a href="{{ service.get_absolute_url }}" class="footer-link">{{ service.get_name_display }}</a></li>
-                    {% endfor %}
+                    {% if services %}
+                        {% for service in services|slice:":5" %}
+                        <li><a href="{{ service.get_absolute_url }}" class="footer-link">{{ service.get_name_display }}</a></li>
+                        {% endfor %}
+                    {% endif %}
                     <li><a href="{% url 'services_list' %}" class="footer-link">Voir tous les services</a></li>
                 </ul>
             </div>

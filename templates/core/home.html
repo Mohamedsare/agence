@@ -5,29 +5,153 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "SiraWeb",
-  "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne",
-  "url": "{{ request.scheme }}://{{ request.get_host }}",
-  "telephone": "+226 XX XX XX XX",
-  "email": "contact@siraweb.bf",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Ouagadougou",
-    "addressCountry": "BF"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": "12.3714",
-    "longitude": "-1.5197"
-  },
-  "areaServed": {
-    "@type": "Country",
-    "name": "Burkina Faso"
-  },
-  "sameAs": [
-    "https://www.facebook.com/siraweb",
-    "https://www.linkedin.com/company/siraweb"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
+      "name": "SiraWeb",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+      "description": "Agence Web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ouagadougou",
+        "addressRegion": "Centre",
+        "addressCountry": "BF",
+        "postalCode": "01 BP"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "12.3714",
+        "longitude": "-1.5197"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+226-64-71-20-44",
+          "contactType": "customer service",
+          "email": "contact@siraweb.bf",
+          "areaServed": ["BF"],
+          "availableLanguage": ["fr"]
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+212-771-668-079",
+          "contactType": "customer service",
+          "areaServed": ["BF"],
+          "availableLanguage": ["fr"]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/siraweb",
+        "https://www.linkedin.com/company/siraweb"
+      ],
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Burkina Faso"
+        },
+        {
+          "@type": "City",
+          "name": "Ouagadougou"
+        },
+        {
+          "@type": "City",
+          "name": "Bobo-Dioulasso"
+        }
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#localbusiness",
+      "name": "SiraWeb - Agence Web au Burkina Faso",
+      "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+      "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne. Services disponibles à Ouagadougou et Bobo-Dioulasso.",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "telephone": "+226-64-71-20-44",
+      "email": "contact@siraweb.bf",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ouagadougou",
+        "addressRegion": "Centre",
+        "addressCountry": "BF"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "12.3714",
+        "longitude": "-1.5197"
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "18:00"
+        }
+      ],
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Burkina Faso"
+        },
+        {
+          "@type": "City",
+          "name": "Ouagadougou"
+        },
+        {
+          "@type": "City",
+          "name": "Bobo-Dioulasso"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services Web",
+        "itemListElement": [
+          {% for service in services %}
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "{{ service.get_name_display }}",
+              "description": "{{ service.short_description|truncatewords:20 }}"
+            }
+          }{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#website",
+      "url": "{{ request.scheme }}://{{ request.get_host }}",
+      "name": "SiraWeb - Agence Web au Burkina Faso",
+      "description": "Agence Web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne",
+      "publisher": {
+        "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization"
+      },
+      "inLanguage": "fr-FR",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ request.scheme }}://{{ request.get_host }}/recherche?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -310,11 +434,14 @@
                                 <path d="M70 100L90 120L130 80" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         {% endif %}
+                       
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
+    <p class="anonymous-cta-image-text">Latifatou Nikiema,<span class="anonymous-cta-image-text-role">Marketing Manager</span></p>
 </section>
 
 {# Wave Divider #}

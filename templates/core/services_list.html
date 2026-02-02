@@ -1,6 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block schema_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Services Web - SiraWeb",
+  "description": "Liste des services web proposés par SiraWeb au Burkina Faso",
+  "itemListElement": [
+    {% for service in services %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "item": {
+        "@type": "Service",
+        "name": "{{ service.get_name_display }}",
+        "description": "{{ service.short_description|truncatewords:30 }}",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "SiraWeb",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ouagadougou",
+            "addressCountry": "BF"
+          }
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "Burkina Faso"
+        }
+      }
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <section class="page-header">
     <div class="container">

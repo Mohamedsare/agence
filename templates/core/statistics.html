@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta_title %}Analytics Dashboard | SiraWeb{% endblock %}
+{% block meta_description %}Tableau de bord des statistiques de visite du site.{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    {# Sidebar #}
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">SiraWeb</div>
+        </div>
+        
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="{% static 'images/logo.png' %}" alt="User">
+            </div>
+            <div class="user-info">
+                <div class="user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="user-role">Administrateur</div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Analytics Dashboard</span>
+                </div>
+            </div>
+        </nav>
+    </aside>
+    
+    {# Main Content #}
+    <main class="dashboard-main">
+        {# Header #}
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">Analytics Dashboard</h1>
+            <div class="header-actions">
+                <a href="{% url 'home' %}" class="btn-header">Retour au site</a>
+            </div>
+        </header>
+        
+        {# KPI Cards #}
+        <div class="dashboard-kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: #E3F2FD;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2196F3" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <path d="M20 8v6M23 11h-6"></path>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-value">{{ total_views|default:0|floatformat:0 }}</div>
+                    <div class="kpi-label">Visiteurs</div>
+                    <div class="kpi-badge {% if week_variation >= 0 %}positive{% else %}negative{% endif %}">
+                        {% if week_variation >= 0 %}+{% endif %}{{ week_variation|default:0|floatformat:2 }}% Cette semaine
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: #E8F5E9;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-value">{{ views_today|default:0|floatformat:0 }}</div>
+                    <div class="kpi-label">Visites Aujourd'hui</div>
+                    <div class="kpi-badge {% if today_variation >= 0 %}positive{% else %}negative{% endif %}">
+                        {% if today_variation >= 0 %}+{% endif %}{{ today_variation|default:0|floatformat:2 }}% Aujourd'hui
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: #FFF3E0;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF9800" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-value">{{ views_this_week|default:0|floatformat:0 }}</div>
+                    <div class="kpi-label">Cette Semaine</div>
+                    <div class="kpi-badge {% if week_variation >= 0 %}positive{% else %}negative{% endif %}">
+                        {% if week_variation >= 0 %}+{% endif %}{{ week_variation|default:0|floatformat:2 }}% Cette semaine
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kpi-card">
+                <div class="kpi-icon" style="background: #FCE4EC;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E91E63" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-value">{{ views_this_month|default:0|floatformat:0 }}</div>
+                    <div class="kpi-label">Ce Mois</div>
+                    <div class="kpi-badge {% if month_variation >= 0 %}positive{% else %}negative{% endif %}">
+                        {% if month_variation >= 0 %}+{% endif %}{{ month_variation|default:0|floatformat:2 }}% Ce mois
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {# Charts Grid #}
+        <div class="dashboard-charts-grid">
+            {# Recent Movement Chart #}
+            <div class="chart-widget large">
+                <div class="chart-header">
+                    <h3 class="chart-title">Mouvement Récent</h3>
+                    <div class="chart-controls">
+                        <select class="chart-select">
+                            <option>Jan</option>
+                            <option>Fév</option>
+                            <option>Mar</option>
+                            <option>Avr</option>
+                            <option>Mai</option>
+                            <option>Juin</option>
+                            <option>Juil</option>
+                            <option>Aoû</option>
+                            <option>Sep</option>
+                            <option>Oct</option>
+                            <option>Nov</option>
+                            <option>Déc</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="recentMovementChart"></canvas>
+                </div>
+            </div>
+            
+            {# Calendar #}
+            <div class="calendar-widget">
+                <div class="chart-header">
+                    <h3 class="chart-title">Calendrier</h3>
+                    <div class="calendar-nav">
+                        <button class="calendar-btn" id="prevMonth">‹</button>
+                        <span class="calendar-month" id="currentMonth"></span>
+                        <button class="calendar-btn" id="nextMonth">›</button>
+                    </div>
+                </div>
+                <div class="calendar-body">
+                    <div class="calendar-grid" id="calendarGrid">
+                        <div class="calendar-day-header">Lun</div>
+                        <div class="calendar-day-header">Mar</div>
+                        <div class="calendar-day-header">Mer</div>
+                        <div class="calendar-day-header">Jeu</div>
+                        <div class="calendar-day-header">Ven</div>
+                        <div class="calendar-day-header">Sam</div>
+                        <div class="calendar-day-header">Dim</div>
+                    </div>
+                </div>
+            </div>
+            
+            {# World Map #}
+            <div class="map-widget">
+                <div class="chart-header">
+                    <h3 class="chart-title">Temps Réel</h3>
+                </div>
+                <div class="map-body" id="worldMap"></div>
+            </div>
+            
+            {# Browser Usage #}
+            <div class="chart-widget">
+                <div class="chart-header">
+                    <h3 class="chart-title">Utilisation des Navigateurs</h3>
+                </div>
+                <div class="chart-body">
+                    <canvas id="browserChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+// Configuration Chart.js
+Chart.defaults.color = '#64748B';
+Chart.defaults.borderColor = '#E2E8F0';
+Chart.defaults.font.family = 'Inter, sans-serif';
+
+// Données depuis Django
+const dailyData = {{ daily_views|safe }};
+const monthlyData = {{ monthly_views|safe }};
+const countryData = {{ country_data|safe }};
+
+// Graphique Recent Movement
+const recentCtx = document.getElementById('recentMovementChart').getContext('2d');
+const monthlyDataArray = {{ monthly_views|safe }};
+const monthlyLabels = monthlyDataArray.length > 0 ? monthlyDataArray.map(d => d.month) : ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+const monthlyValues = monthlyDataArray.length > 0 ? monthlyDataArray.map(d => d.count) : [1000, 1200, 1500, 1800, 2000, 2200, 2500, 2800, 3000, 3200, 3500, 3800];
+const maxValue = Math.max(...monthlyValues, 4000);
+
+new Chart(recentCtx, {
+    type: 'line',
+    data: {
+        labels: monthlyLabels,
+        datasets: [{
+            label: 'Visites',
+            data: monthlyValues,
+            borderColor: '#2196F3',
+            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: Math.ceil(maxValue / 1000) * 1000,
+                grid: {
+                    color: '#F1F5F9'
+                },
+                ticks: {
+                    stepSize: Math.ceil(maxValue / 1000) * 1000 / 4
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                }
+            }
+        }
+    }
+});
+
+// Graphique Browser Usage
+const browserCtx = document.getElementById('browserChart').getContext('2d');
+new Chart(browserCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Chrome', 'Firefox', 'Edge', 'Safari', 'Autres'],
+        datasets: [{
+            data: [4306, 3801, 1689, 1200, 3251],
+            backgroundColor: [
+                '#2196F3',
+                '#FF9800',
+                '#E91E63',
+                '#4CAF50',
+                '#9E9E9E'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'right',
+                labels: {
+                    padding: 15,
+                    usePointStyle: true
+                }
+            }
+        }
+    }
+});
+
+// Calendar
+const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+let currentDate = new Date();
+let currentMonth = currentDate.getMonth();
+let currentYear = currentDate.getFullYear();
+
+function renderCalendar() {
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const today = new Date();
+    
+    document.getElementById('currentMonth').textContent = monthNames[currentMonth] + ' ' + currentYear;
+    
+    const grid = document.getElementById('calendarGrid');
+    // Clear existing days (keep headers)
+    while (grid.children.length > 7) {
+        grid.removeChild(grid.lastChild);
+    }
+    
+    // Add empty cells for days before month starts
+    const startDay = firstDay === 0 ? 6 : firstDay - 1; // Monday = 0
+    for (let i = 0; i < startDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'calendar-day empty';
+        grid.appendChild(empty);
+    }
+    
+    // Add days of month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayEl = document.createElement('div');
+        dayEl.className = 'calendar-day';
+        if (currentYear === today.getFullYear() && currentMonth === today.getMonth() && day === today.getDate()) {
+            dayEl.classList.add('active');
+        }
+        dayEl.textContent = day;
+        grid.appendChild(dayEl);
+    }
+}
+
+document.getElementById('prevMonth').addEventListener('click', function() {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCalendar();
+});
+
+document.getElementById('nextMonth').addEventListener('click', function() {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCalendar();
+});
+
+renderCalendar();
+
+// World Map
+const map = L.map('worldMap').setView([20, 0], 2);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 18
+}).addTo(map);
+
+// Coordonnées approximatives pour quelques pays (à améliorer avec une vraie API de géolocalisation)
+const countryCoords = {
+    'BF': [12.2383, -1.5616], // Burkina Faso
+    'FR': [46.2276, 2.2137], // France
+    'US': [37.0902, -95.7129], // USA
+    'GB': [55.3781, -3.4360], // UK
+    'DE': [51.1657, 10.4515], // Germany
+    'CA': [56.1304, -106.3468], // Canada
+    'SN': [14.4974, -14.4524], // Senegal
+    'CI': [7.5400, -5.5471], // Côte d'Ivoire
+    'ML': [17.5707, -3.9962], // Mali
+    'NE': [17.6078, 8.0817], // Niger
+};
+
+// Ajouter des marqueurs pour les pays avec des visites
+const countryDataArray = {{ country_data|safe }};
+if (countryDataArray && countryDataArray.length > 0) {
+    countryDataArray.forEach(function(country) {
+        if (country.code && countryCoords[country.code]) {
+            const coords = countryCoords[country.code];
+            L.circleMarker(coords, {
+                radius: Math.min(country.count / 10, 20),
+                fillColor: '#2196F3',
+                color: '#1976D2',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.6
+            }).addTo(map)
+            .bindPopup(country.country + ': ' + country.count + ' visites');
+        }
+    });
+} else {
+    // Ajouter quelques marqueurs de démonstration
+    L.circleMarker([12.2383, -1.5616], {
+        radius: 15,
+        fillColor: '#2196F3',
+        color: '#1976D2',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.6
+    }).addTo(map).bindPopup('Burkina Faso: Exemple');
+}
+</script>
+{% endblock %}

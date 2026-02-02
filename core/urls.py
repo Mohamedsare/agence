@@ -24,6 +24,9 @@ urlpatterns = [
     path('mentions-legales/', views.legal, name='legal'),
     path('politique-de-confidentialite/', views.privacy, name='privacy'),
     
+    # Statistiques
+    path('statistiques/', views.statistics, name='statistics'),
+    
     # Robots.txt
     path('robots.txt', views.robots_txt, name='robots_txt'),
 ]

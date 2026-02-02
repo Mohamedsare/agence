@@ -1,18 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta_title %}500 - Erreur serveur | SiraWeb{% endblock %}
+{% block meta_description %}Une erreur s'est produite sur le serveur. Veuillez réessayer plus tard.{% endblock %}
+
 {% block content %}
 <section class="error-page">
     <div class="container">
         <div class="error-content">
+            <div class="error-icon">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
             <h1 class="error-code">500</h1>
             <h2 class="error-title">Erreur serveur</h2>
             <p class="error-description">
-                Une erreur s'est produite sur le serveur. Veuillez réessayer plus tard.
+                Une erreur s'est produite sur le serveur. Veuillez réessayer plus tard ou nous contacter si le problème persiste.
             </p>
-            <a href="{% url 'home' %}" class="btn btn-primary btn-large">
-                Retour à l'accueil
-            </a>
+            <div class="error-actions">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-large">
+                    Retour à l'accueil
+                </a>
+                <a href="{% url 'contact' %}" class="btn btn-secondary btn-large">
+                    Nous contacter
+                </a>
+            </div>
         </div>
     </div>
 </section>

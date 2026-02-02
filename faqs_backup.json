@@ -1,0 +1,128 @@
+[
+  {
+    "question": "Qui est SiraWeb ?",
+    "answer": "SiraWeb est une agence web spécialisée dans la création de sites web modernes, performants et optimisés SEO, dédiée aux entreprises, entrepreneurs et organisations au Burkina Faso et en Afrique francophone.",
+    "order": 1,
+    "active": true
+  },
+  {
+    "question": "Pourquoi choisir une agence locale comme SiraWeb ?",
+    "answer": "Travailler avec SiraWeb, c'est bénéficier :\n• d'une compréhension du marché burkinabè\n• de solutions adaptées aux réalités locales\n• d'un accompagnement humain et réactif\n• de tarifs cohérents avec le pouvoir économique local",
+    "order": 2,
+    "active": true
+  },
+  {
+    "question": "Quels types de sites web proposez-vous ?",
+    "answer": "Nous réalisons :\n• Sites vitrines professionnels\n• Sites web d'entreprise\n• Sites e-commerce\n• Landing pages de conversion\n• Refonte et modernisation de sites existants",
+    "order": 3,
+    "active": true
+  },
+  {
+    "question": "Les sites sont-ils compatibles mobile ?",
+    "answer": "Oui. Tous nos sites sont 100 % responsive (mobile-first) et parfaitement adaptés aux smartphones et tablettes.",
+    "order": 4,
+    "active": true
+  },
+  {
+    "question": "Proposez-vous le référencement naturel (SEO) ?",
+    "answer": "Oui. Chaque site est conçu avec :\n• structure SEO optimisée\n• chargement rapide\n• balisage propre\n• optimisation Google (SEO local Burkina Faso)",
+    "order": 5,
+    "active": true
+  },
+  {
+    "question": "Pouvez-vous gérer la maintenance du site ?",
+    "answer": "Oui. Nous proposons des formules de maintenance :\n• mises à jour techniques\n• sécurité\n• sauvegardes\n• assistance continue",
+    "order": 6,
+    "active": true
+  },
+  {
+    "question": "Combien de temps faut-il pour créer un site web ?",
+    "answer": "En moyenne :\n• Site vitrine : 7 à 14 jours\n• Site e-commerce : 14 à 30 jours\n(selon la complexité du projet)",
+    "order": 7,
+    "active": true
+  },
+  {
+    "question": "Comment se déroule un projet chez SiraWeb ?",
+    "answer": "1. Analyse de vos besoins\n2. Proposition claire (design + fonctionnalités)\n3. Validation\n4. Développement\n5. Tests & mise en ligne\n6. Suivi et accompagnement",
+    "order": 8,
+    "active": true
+  },
+  {
+    "question": "Quels sont vos tarifs ?",
+    "answer": "Nos tarifs dépendent :\n• du type de site\n• des fonctionnalités\n• du niveau de personnalisation\n\n👉 Nous proposons des prix accessibles et transparents, adaptés aux entreprises burkinabè.",
+    "order": 9,
+    "active": true
+  },
+  {
+    "question": "Peut-on payer en plusieurs fois ?",
+    "answer": "Oui. Un paiement échelonné est possible selon le projet :\n• acompte au démarrage\n• solde à la livraison",
+    "order": 10,
+    "active": true
+  },
+  {
+    "question": "Les devis sont-ils gratuits ?",
+    "answer": "Oui, 100 % gratuits et sans engagement.",
+    "order": 11,
+    "active": true
+  },
+  {
+    "question": "Le site m'appartient-il une fois terminé ?",
+    "answer": "Oui. Le site vous appartient entièrement (code, contenu, accès).",
+    "order": 12,
+    "active": true
+  },
+  {
+    "question": "Le site est-il sécurisé ?",
+    "answer": "Oui. Nous intégrons :\n• certificat SSL (HTTPS)\n• protection de base contre les attaques\n• bonnes pratiques de sécurité web",
+    "order": 13,
+    "active": true
+  },
+  {
+    "question": "Un site web peut-il vraiment augmenter mes ventes ?",
+    "answer": "Oui. Un site bien conçu permet :\n• plus de visibilité\n• plus de crédibilité\n• plus de contacts clients\n• plus de ventes",
+    "order": 14,
+    "active": true
+  },
+  {
+    "question": "Travaillez-vous avec les petites entreprises et startups ?",
+    "answer": "Absolument. SiraWeb accompagne :\n• TPE & PME\n• entrepreneurs\n• associations\n• startups",
+    "order": 15,
+    "active": true
+  },
+  {
+    "question": "Assurez-vous un accompagnement après la mise en ligne ?",
+    "answer": "Oui. Nous restons disponibles pour :\n• assistance\n• évolutions\n• conseils digitaux",
+    "order": 16,
+    "active": true
+  },
+  {
+    "question": "Comment vous contacter ?",
+    "answer": "Via :\n• formulaire de contact\n• WhatsApp / téléphone\n• email professionnel",
+    "order": 17,
+    "active": true
+  },
+  {
+    "question": "Travaillez-vous uniquement au Burkina Faso ?",
+    "answer": "Non. Nous travaillons aussi avec des clients :\n• en Afrique francophone\n• à l'international",
+    "order": 18,
+    "active": true
+  },
+  {
+    "question": "Comprenez-vous les réalités locales ?",
+    "answer": "Oui. Nos solutions sont pensées pour :\n• la connectivité locale\n• les habitudes des utilisateurs burkinabè\n• les besoins concrets des entreprises locales",
+    "order": 19,
+    "active": true
+  },
+  {
+    "question": "Pourquoi investir dans un site web aujourd'hui au Burkina Faso ?",
+    "answer": "Parce que vos clients sont déjà en ligne. Un site web est votre vitrine 24h/24, même quand votre bureau est fermé.",
+    "order": 20,
+    "active": true
+  },
+  {
+    "question": "Comment démarrer avec SiraWeb ?",
+    "answer": "Il suffit de nous contacter. Nous nous occupons du reste.",
+    "order": 21,
+    "active": true
+  }
+]

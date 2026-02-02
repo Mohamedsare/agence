@@ -6,11 +6,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from core.sitemaps import BlogSitemap, StaticSitemap
+from core.sitemaps import BlogSitemap, StaticSitemap, ServiceSitemap
 
 sitemaps = {
-    'blog': BlogSitemap,
     'static': StaticSitemap,
+    'services': ServiceSitemap,
+    'blog': BlogSitemap,
 }
 
 urlpatterns = [

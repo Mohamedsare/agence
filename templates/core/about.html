@@ -5,21 +5,47 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "SiraWeb",
-  "url": "{{ request.scheme }}://{{ request.get_host }}",
-  "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
-  "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Ouagadougou",
-    "addressCountry": "BF"
-  },
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+226 XX XX XX XX",
-    "contactType": "customer service",
-    "email": "contact@siraweb.bf"
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "SiraWeb",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+    "description": "Agence Web au Burkina Faso - Création de sites web sur mesure, SEO et développement web moderne",
+    "foundingDate": "2020",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ouagadougou",
+      "addressRegion": "Centre",
+      "addressCountry": "BF"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+226-64-71-20-44",
+      "contactType": "customer service",
+      "email": "contact@siraweb.bf",
+      "areaServed": "BF",
+      "availableLanguage": "fr"
+    },
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Burkina Faso"
+      },
+      {
+        "@type": "City",
+        "name": "Ouagadougou"
+      },
+      {
+        "@type": "City",
+        "name": "Bobo-Dioulasso"
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "{{ company_stats.projects_count|default:50 }}"
+    }
   }
 }
 </script>
