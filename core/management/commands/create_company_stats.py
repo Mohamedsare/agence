@@ -16,6 +16,7 @@ class Command(BaseCommand):
                 'projects_count': 50,
                 'years_experience': 5,
                 'client_satisfaction': 98,
+                'support_24_7': 24,
                 'active': True,
             }
         )
@@ -23,12 +24,12 @@ class Command(BaseCommand):
         if created:
             self.stdout.write(
                 self.style.SUCCESS(
-                    f'[OK] Statistiques creees: {stats.projects_count} projets, {stats.years_experience} ans, {stats.client_satisfaction}%'
+                    f'[OK] Statistiques créées: {stats.projects_count} projets, {stats.years_experience} ans, {stats.client_satisfaction}%, Support {stats.support_24_7}/7'
                 )
             )
         else:
             self.stdout.write(
                 self.style.WARNING(
-                    f'[UPDATE] Statistiques existent deja: {stats.projects_count} projets, {stats.years_experience} ans, {stats.client_satisfaction}%'
+                    f'[UPDATE] Statistiques existent déjà: {stats.projects_count} projets, {stats.years_experience} ans, {stats.client_satisfaction}%, Support {stats.support_24_7}/7'
                 )
             )

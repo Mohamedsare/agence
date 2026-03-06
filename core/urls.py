@@ -5,6 +5,7 @@ urlpatterns = [
     # Pages principales
     path('', views.home, name='home'),
     path('services/', views.services_list, name='services_list'),
+    path('services/maintenance-site-web/', views.maintenance_page, name='maintenance_page'),
     path('services/<slug:slug>/', views.service_detail, name='service_detail'),
     path('agence/', views.about, name='about'),
     path('agence/equipe/', views.team, name='team'),
@@ -24,9 +25,13 @@ urlpatterns = [
     path('mentions-legales/', views.legal, name='legal'),
     path('politique-de-confidentialite/', views.privacy, name='privacy'),
     
-    # Statistiques
+    # Tableau de bord
     path('statistiques/', views.statistics, name='statistics'),
+    path('statistiques/messages/', views.dashboard_messages, name='dashboard_messages'),
     
     # Robots.txt
     path('robots.txt', views.robots_txt, name='robots_txt'),
+
+    # Assistant conversationnel (DeepSeek)
+    path('api/assistant/', views.assistant_chat, name='assistant_chat'),
 ]

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block meta_title %}Analytics Dashboard | SiraWeb{% endblock %}
+{% block meta_title %}Analytics Dashboard | FASOWEB{% endblock %}
 {% block meta_description %}Tableau de bord des statistiques de visite du site.{% endblock %}
+{% block extra_meta %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -12,10 +13,15 @@
 
 {% block content %}
 <div class="dashboard-wrapper">
+    {# Overlay mobile (ferme la sidebar au tap) #}
+    <div class="dashboard-sidebar-overlay" id="dashboard-sidebar-overlay" aria-hidden="true"></div>
     {# Sidebar #}
-    <aside class="dashboard-sidebar">
+    <aside class="dashboard-sidebar" id="dashboard-sidebar" aria-label="Menu du tableau de bord">
         <div class="sidebar-header">
-            <div class="sidebar-logo">SiraWeb</div>
+            <div class="sidebar-logo">FASOWEB</div>
+            <button type="button" class="sidebar-close" id="dashboard-sidebar-close" aria-label="Fermer le menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         
         <div class="sidebar-user">
@@ -30,10 +36,14 @@
         
         <nav class="sidebar-nav">
             <div class="nav-section">
-                <div class="nav-item active">
+                <a href="{% url 'statistics' %}" class="nav-item {% if request.resolver_match.url_name == 'statistics' %}active{% endif %}">
                     <span class="nav-icon">📊</span>
                     <span class="nav-label">Analytics Dashboard</span>
-                </div>
+                </a>
+                <a href="{% url 'dashboard_messages' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard_messages' %}active{% endif %}">
+                    <span class="nav-icon">✉️</span>
+                    <span class="nav-label">Messages</span>
+                </a>
             </div>
         </nav>
     </aside>
@@ -42,6 +52,9 @@
     <main class="dashboard-main">
         {# Header #}
         <header class="dashboard-header">
+            <button type="button" class="dashboard-menu-toggle" id="dashboard-menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
             <h1 class="dashboard-title">Analytics Dashboard</h1>
             <div class="header-actions">
                 <a href="{% url 'home' %}" class="btn-header">Retour au site</a>
@@ -183,6 +196,28 @@
                 <div class="chart-body">
                     <canvas id="browserChart"></canvas>
                 </div>
+            </div>
+        </div>
+
+        {# Questions posées à l'assistant #}
+        <div class="dashboard-questions-widget">
+            <div class="chart-header">
+                <h3 class="chart-title">Questions posées à l'assistant</h3>
+                <span class="chart-subtitle">Dernières questions des visiteurs dans le chat</span>
+            </div>
+            <div class="questions-list-wrapper">
+                {% if assistant_questions %}
+                <ul class="questions-list">
+                    {% for q in assistant_questions %}
+                    <li class="question-item">
+                        <div class="question-content">{{ q.content }}</div>
+                        <div class="question-date">{{ q.created_at|date:"d/m/Y H:i" }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="questions-empty">Aucune question enregistrée pour le moment.</p>
+                {% endif %}
             </div>
         </div>
     </main>
@@ -389,5 +424,30 @@ if (countryDataArray && countryDataArray.length > 0) {
         fillOpacity: 0.6
     }).addTo(map).bindPopup('Burkina Faso: Exemple');
 }
+
+</script>
+<script>
+// Mobile: toggle sidebar (script séparé pour éviter qu'une erreur Chart/Leaflet bloque l'exécution)
+document.addEventListener('DOMContentLoaded', function() {
+    var sidebar = document.getElementById('dashboard-sidebar');
+    var overlay = document.getElementById('dashboard-sidebar-overlay');
+    var toggle = document.getElementById('dashboard-menu-toggle');
+    var closeBtn = document.getElementById('dashboard-sidebar-close');
+    function openSidebar() {
+        if (sidebar) sidebar.classList.add('sidebar-open');
+        if (overlay) { overlay.classList.add('active'); overlay.setAttribute('aria-hidden', 'false'); }
+        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSidebar() {
+        if (sidebar) sidebar.classList.remove('sidebar-open');
+        if (overlay) { overlay.classList.remove('active'); overlay.setAttribute('aria-hidden', 'true'); }
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+    if (toggle) toggle.addEventListener('click', function(e) { e.preventDefault(); openSidebar(); });
+    if (closeBtn) closeBtn.addEventListener('click', function(e) { e.preventDefault(); closeSidebar(); });
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+});
 </script>
 {% endblock %}

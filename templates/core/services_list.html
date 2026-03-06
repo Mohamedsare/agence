@@ -5,65 +5,99 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Services Web - SiraWeb",
-  "description": "Liste des services web proposés par SiraWeb au Burkina Faso",
-  "itemListElement": [
-    {% for service in services %}
+  "@graph": [
     {
-      "@type": "ListItem",
-      "position": {{ forloop.counter }},
-      "item": {
-        "@type": "Service",
-        "name": "{{ service.get_name_display }}",
-        "description": "{{ service.short_description|truncatewords:30 }}",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "SiraWeb",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Ouagadougou",
-            "addressCountry": "BF"
+      "@type": "LocalBusiness",
+      "name": "FASOWEB",
+      "description": "Agence web au Burkina Faso : création de sites, e-commerce, SEO, maintenance. Ouagadougou et Bobo-Dioulasso.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ouagadougou",
+        "addressCountry": "BF"
+      },
+      "areaServed": { "@type": "Country", "name": "Burkina Faso" },
+      "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'services_list' %}"
+    },
+    {
+      "@type": "ItemList",
+      "name": "Services Web FASOWEB Burkina Faso",
+      "description": "Services web proposés par FASOWEB à Ouagadougou et au Burkina Faso : site vitrine, e-commerce, SEO, maintenance.",
+      "itemListElement": [
+        {% for service in services %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.counter }},
+          "item": {
+            "@type": "Service",
+            "name": "{{ service.get_name_display }}",
+            "description": "{{ service.short_description|truncatewords:25 }}",
+            "provider": { "@type": "LocalBusiness", "name": "FASOWEB" },
+            "areaServed": { "@type": "Country", "name": "Burkina Faso" }
           }
-        },
-        "areaServed": {
-          "@type": "Country",
-          "name": "Burkina Faso"
-        }
-      }
-    }{% if not forloop.last %},{% endif %}
-    {% endfor %}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
   ]
 }
 </script>
 {% endblock %}
 
+{% block meta_keywords %}agence web Burkina Faso, services web Ouagadougou, création site web Burkina, e-commerce Burkina Faso, SEO Ouagadougou, maintenance site web Bobo-Dioulasso, devis site internet Burkina, FASOWEB{% endblock %}
+
 {% block content %}
 <section class="page-header">
     <div class="container">
-        <h1 class="page-title">Nos Services</h1>
+        <h1 class="page-title">Nos Services Web au Burkina Faso</h1>
         <p class="page-description">
-            Des solutions web complètes et sur mesure pour développer votre présence en ligne au Burkina Faso
+            Création de sites, e-commerce, SEO, refonte, maintenance : des solutions sur mesure pour les entreprises à Ouagadougou, Bobo-Dioulasso et partout au Burkina. <strong>Devis gratuit sous 24h</strong>, sans engagement.
+        </p>
+        <p class="page-header-cta">
+            <button type="button" class="btn btn-primary btn-large" id="open-quote-modal-services-header">
+                Obtenir un devis gratuit
+            </button>
         </p>
     </div>
 </section>
 
-{# Intro Section #}
+{# Intro Section - parle de TOUS les services #}
 <section class="services-intro">
     <div class="container">
         <div class="services-intro-content reveal-fade-up">
+            <h2 class="services-intro-title">Une offre complète pour tous vos besoins digitaux</h2>
             <p class="services-intro-text">
-                Chez SiraWeb, nous proposons une gamme complète de services web adaptés aux besoins des entreprises 
-                au Burkina Faso. De la création de site vitrine au référencement naturel, en passant par le développement 
-                e-commerce, nous accompagnons votre transformation digitale avec expertise et professionnalisme.
+                Chez FASOWEB, nous couvrons l’ensemble de la chaîne digitale : <strong>création de sites vitrine</strong>, 
+                <strong>sites e-commerce</strong> et <strong>sites institutionnels</strong>, <strong>landing pages</strong> 
+                pour vos campagnes, <strong>refonte UI/UX</strong> pour moderniser votre site, <strong>SEO naturel</strong> et 
+                <strong>SEA (Google Ads)</strong> pour la visibilité, et <strong>maintenance & hébergement</strong> pour 
+                garder votre présence en ligne performante et sécurisée. Quelle que soit votre taille ou votre secteur, 
+                nous vous accompagnons avec des solutions adaptées au marché burkinabè.
+            </p>
+            <p class="services-intro-sub">
+                Ci-dessous, découvrez chaque service en détail : ce que nous proposons, comment nous travaillons et en quoi 
+                cela peut faire la différence pour votre entreprise.
             </p>
         </div>
     </div>
 </section>
 
-{# Services Grid #}
-<section class="services-page">
+{# Une carte par service - la section overview a été supprimée, uniquement les cartes ci-dessous #}
+<section class="services-overview services-overview-hidden" aria-label="Vue d’ensemble de nos services">
     <div class="container">
+        <h2 class="services-overview-title">Tous nos services</h2>
+        <ul class="services-overview-list">
+            {% for service in services %}
+            <li><a href="{{ service.get_absolute_url }}">{{ service.get_name_display }}</a></li>
+            {% endfor %}
+        </ul>
+        <p class="services-overview-note">Cliquez sur un service pour en savoir plus.</p>
+    </div>
+</section>
+
+{# Services Grid - chaque service en détail #}
+<section class="services-page" aria-label="Nos services">
+    <div class="container">
+        <h2 class="section-title services-page-heading">Chaque service en détail</h2>
         <div class="services-grid-large">
             {% for service in services %}
             <article class="service-card-large reveal-fade-up" data-delay="{{ forloop.counter0|add:'0.1' }}">
@@ -151,7 +185,7 @@
 <section class="why-choose-section">
     <div class="container">
         <div class="section-header reveal-fade-up">
-            <span class="section-label">Pourquoi SiraWeb ?</span>
+            <span class="section-label">Pourquoi FASOWEB ?</span>
             <h2 class="section-title">Votre partenaire digital de confiance</h2>
         </div>
         <div class="why-choose-grid">
@@ -199,10 +233,28 @@
     </div>
 </section>
 
-{# Stats Section #}
+{# Stats Section (données depuis l'admin : Statistiques de l'entreprise) #}
 <section class="stats-section">
     <div class="container">
         <div class="stats-grid">
+            {% if company_stats %}
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="{{ company_stats.projects_count }}">0</div>
+                <div class="stat-label">Projets réalisés</div>
+            </div>
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="{{ company_stats.client_satisfaction }}">0</div>
+                <div class="stat-label">% Clients satisfaits</div>
+            </div>
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="{{ company_stats.years_experience }}">0</div>
+                <div class="stat-label">Années d'expérience</div>
+            </div>
+            <div class="stat-item reveal-fade-up">
+                <div class="stat-number" data-target="{{ company_stats.support_24_7 }}">0</div>
+                <div class="stat-label">Support 24/7</div>
+            </div>
+            {% else %}
             <div class="stat-item reveal-fade-up">
                 <div class="stat-number" data-target="50">0</div>
                 <div class="stat-label">Projets réalisés</div>
@@ -219,21 +271,23 @@
                 <div class="stat-number" data-target="24">0</div>
                 <div class="stat-label">Support 24/7</div>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>
 
-{# CTA Section #}
+{# CTA Section - conversion #}
 <section class="cta-section">
     <div class="container">
         <div class="cta-content reveal-fade-up">
-            <h2 class="cta-title">Prêt à démarrer votre projet ?</h2>
+            <h2 class="cta-title">Prêt à démarrer votre projet au Burkina Faso ?</h2>
             <p class="cta-description">
-                Discutez de vos besoins avec nos experts et obtenez un devis personnalisé gratuit.
+                Réponse sous 24h · Devis personnalisé gratuit · Sans engagement. Ouagadougou, Bobo-Dioulasso et partout au pays.
             </p>
             <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-services">
                 <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
             </button>
+            <p class="cta-trust">+50 projets réalisés · Tarifs adaptés au marché local</p>
         </div>
     </div>
 </section>

@@ -54,7 +54,7 @@ class Article(models.Model):
     featured_image = models.ImageField(upload_to='blog/', blank=True, null=True, verbose_name="Image mise en avant")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Catégorie")
     tags = models.ManyToManyField(Tag, blank=True, verbose_name="Tags")
-    author = models.CharField(max_length=100, default="SiraWeb", verbose_name="Auteur")
+    author = models.CharField(max_length=100, default="FASOWEB", verbose_name="Auteur")
     published = models.BooleanField(default=False, verbose_name="Publié")
     published_at = models.DateTimeField(null=True, blank=True, verbose_name="Date de publication")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -329,13 +329,18 @@ class FAQ(models.Model):
 
 
 class CompanyStats(models.Model):
-    """Statistiques de l'entreprise pour la page À propos."""
+    """Statistiques de l'entreprise (page À propos et page Services)."""
     projects_count = models.IntegerField(default=0, verbose_name="Projets réalisés")
     years_experience = models.IntegerField(default=0, verbose_name="Années d'expérience")
     client_satisfaction = models.IntegerField(
         default=0,
         verbose_name="% Clients satisfaits",
         help_text="Pourcentage de satisfaction client (0-100)"
+    )
+    support_24_7 = models.IntegerField(
+        default=24,
+        verbose_name="Support 24/7",
+        help_text="Nombre affiché pour la stat « Support 24/7 » (ex: 24)"
     )
     active = models.BooleanField(default=True, verbose_name="Actif")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour")
@@ -384,3 +389,42 @@ class PageView(models.Model):
     
     def __str__(self):
         return f"{self.path} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+
+
+class AssistantQuestion(models.Model):
+    """Questions posées par les visiteurs à l'assistant (chat) sur le site."""
+    content = models.TextField(verbose_name="Question")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date")
+
+    class Meta:
+        verbose_name = "Question assistant"
+        verbose_name_plural = "Questions posées à l'assistant"
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['-created_at']),
+        ]
+
+    def __str__(self):
+        preview = (self.content[:60] + '…') if len(self.content) > 60 else self.content
+        return f"{preview} — {self.created_at.strftime('%d/%m/%Y %H:%M')}"
+
+
+class PageBanner(models.Model):
+    """Image(s) de bannière / slider pour une page (ex: maintenance). Plusieurs images = slider."""
+    PAGE_CHOICES = [
+        ('home', 'Page d\'accueil'),
+        ('services', 'Services (toutes les pages du sous-menu Services)'),
+        ('maintenance', 'Maintenance de site web'),
+    ]
+    page = models.CharField(max_length=50, choices=PAGE_CHOICES, verbose_name="Page")
+    image = models.ImageField(upload_to='banners/', verbose_name="Image")
+    order = models.IntegerField(default=0, verbose_name="Ordre d'affichage")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Bannière de page"
+        verbose_name_plural = "Bannières de page"
+        ordering = ['page', 'order']
+
+    def __str__(self):
+        return f"{self.get_page_display()} #{self.order}"

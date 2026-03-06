@@ -7,20 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     {# SEO Meta Tags #}
-    <title>{% block meta_title %}{{ meta_title|default:"SiraWeb - Agence Web au Burkina Faso" }}{% endblock %}</title>
+    <title>{% block meta_title %}{{ meta_title|default:"FASOWEB - Agence Web au Burkina Faso" }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ meta_description|default:"Agence web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne." }}{% endblock %}">
-    <meta name="keywords" content="{% block meta_keywords %}agence web Burkina Faso, création site web Ouagadougou, SEO Ouagadougou, agence web Bobo-Dioulasso, référencement naturel Burkina{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}agence web Burkina Faso, création site web Ouagadougou, SEO Ouagadougou, agence web Bobo-Dioulasso, référencement naturel Burkina Faso, site internet Ouagadougou, développement web Burkina, agence digitale Burkina Faso, création site web Bobo-Dioulasso{% endblock %}">
     <link rel="canonical" href="{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}">
+    {# Langue et cible géographique #}
+    <link rel="alternate" hreflang="fr" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
     
     {# Open Graph #}
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-    <meta property="og:title" content="{% block og_title %}{{ meta_title|default:"SiraWeb - Agence Web au Burkina Faso" }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ meta_title|default:"FASOWEB - Agence Web au Burkina Faso" }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ meta_description|default:"Agence web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne." }}{% endblock %}">
     <meta property="og:url" content="{% block og_url %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-image.jpg' %}{% endblock %}">
-    <meta property="og:site_name" content="SiraWeb">
-    <meta property="og:locale" content="fr_FR">
-    <meta property="og:locale:alternate" content="fr_BF">
+    <meta property="og:site_name" content="FASOWEB - Agence Web Burkina Faso">
+    <meta property="og:locale" content="fr_BF">
+    <meta property="og:locale:alternate" content="fr_FR">
     
     {# SEO Local Burkina Faso #}
     <meta name="geo.region" content="BF">
@@ -30,9 +33,10 @@
     
     {# Twitter Card #}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}{{ meta_title|default:"SiraWeb - Agence Web au Burkina Faso" }}{% endblock %}">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ meta_title|default:"FASOWEB - Agence Web au Burkina Faso" }}{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ meta_description|default:"Agence web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne." }}{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-image.jpg' %}{% endblock %}">
+    {% block extra_meta %}{% endblock %}
     
     {# Favicon & PWA #}
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/logo.png' %}">
@@ -49,44 +53,82 @@
     {# Styles #}
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     
-    {# Schema JSON-LD Global Organization #}
+    {# Schema JSON-LD Global: Organization + LocalBusiness (SEO Burkina Faso) #}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "SiraWeb",
-      "url": "{{ request.scheme }}://{{ request.get_host }}",
-      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
-      "description": "Agence Web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Ouagadougou",
-        "addressRegion": "Centre",
-        "addressCountry": "BF"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+226-64-71-20-44",
-        "contactType": "customer service",
-        "email": "contact@siraweb.bf",
-        "areaServed": "BF",
-        "availableLanguage": "fr"
-      },
-      "sameAs": [
-        "https://www.facebook.com/siraweb",
-        "https://www.linkedin.com/company/siraweb"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
+          "name": "FASOWEB",
+          "url": "{{ request.scheme }}://{{ request.get_host }}",
+          "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+          "description": "Agence Web au Burkina Faso spécialisée dans la création de sites web sur mesure, SEO et développement web moderne. Ouagadougou, Bobo-Dioulasso.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ouagadougou",
+            "addressRegion": "Centre",
+            "addressCountry": "BF"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+226-64-71-20-44",
+            "contactType": "customer service",
+            "email": "contact@fasoweb.com",
+            "areaServed": "Burkina Faso",
+            "availableLanguage": "fr"
+          },
+          "sameAs": [
+            "https://www.facebook.com/siraweb",
+            "https://www.linkedin.com/company/fasoweb"
+          ]
+        },
+        {
+          "@type": "LocalBusiness",
+          "name": "FASOWEB - Agence Web Burkina Faso",
+          "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+          "url": "{{ request.scheme }}://{{ request.get_host }}",
+          "description": "Agence web à Ouagadougou et Bobo-Dioulasso. Création de sites web, SEO, e-commerce et référencement naturel au Burkina Faso.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ouagadougou",
+            "addressRegion": "Centre",
+            "addressCountry": "BF"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 12.3714,
+            "longitude": -1.5197
+          },
+          "areaServed": [
+            { "@type": "Country", "name": "Burkina Faso" },
+            { "@type": "City", "name": "Ouagadougou" },
+            { "@type": "City", "name": "Bobo-Dioulasso" }
+          ],
+          "telephone": "+226-64-71-20-44",
+          "priceRange": "$$"
+        },
+        {
+          "@type": "WebSite",
+          "name": "FASOWEB - Agence Web Burkina Faso",
+          "url": "{{ request.scheme }}://{{ request.get_host }}",
+          "description": "Site officiel de FASOWEB, agence web à Ouagadougou et Bobo-Dioulasso. Création de sites internet et SEO au Burkina Faso.",
+          "inLanguage": "fr-BF",
+          "publisher": { "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization" }
+        }
       ]
     }
     </script>
     {# Schema JSON-LD Page Specific #}
     {% block schema_ld %}{% endblock %}
 </head>
-<body class="{% if request.resolver_match.url_name == 'statistics' %}dashboard-page{% endif %}">
+<body class="{% if request.resolver_match.url_name == 'statistics' or request.resolver_match.url_name == 'dashboard_messages' %}dashboard-page{% endif %}">
     {# Preloader #}
     <div class="preloader" id="preloader" aria-label="Chargement en cours">
         <div class="preloader-content">
             <div class="preloader-logo">
-                <img src="{% static 'images/logo.png' %}" alt="SiraWeb" class="preloader-logo-img">
+                <img src="{% static 'images/logo.png' %}" alt="FASOWEB" class="preloader-logo-img">
             </div>
             <div class="preloader-spinner">
                 <div class="preloader-spinner-ring"></div>
@@ -97,15 +139,15 @@
         </div>
     </div>
     
-    {# Scroll Progress Bar #}
-    {% if request.resolver_match.url_name != 'statistics' %}
+    {# Scroll Progress Bar - masqué sur les pages dashboard #}
+    {% if request.resolver_match.url_name != 'statistics' and request.resolver_match.url_name != 'dashboard_messages' %}
     <div class="scroll-progress" role="progressbar" aria-label="Progression du scroll" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="scroll-progress-bar"></div>
     </div>
     {% endif %}
     
-    {# Navbar - incluse dans hero sur page d'accueil, normale ailleurs #}
-    {% if request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'statistics' %}
+    {# Navbar - masquée sur dashboard (statistiques, messages) et incluse dans hero sur accueil #}
+    {% if request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'statistics' and request.resolver_match.url_name != 'dashboard_messages' %}
     {% include 'partials/navbar.html' %}
     {% endif %}
     
@@ -126,18 +168,15 @@
         {% block content %}{% endblock %}
     </main>
     
-    {# Footer #}
-    {% if request.resolver_match.url_name != 'statistics' %}
+    {# Footer - masqué sur les pages dashboard #}
+    {% if request.resolver_match.url_name != 'statistics' and request.resolver_match.url_name != 'dashboard_messages' %}
     {% include 'partials/footer.html' %}
     {% endif %}
     
-    {# Quote Modal #}
-    {% if request.resolver_match.url_name != 'statistics' %}
+    {# Quote Modal + Assistant + WhatsApp - masqués sur les pages dashboard #}
+    {% if request.resolver_match.url_name != 'statistics' and request.resolver_match.url_name != 'dashboard_messages' %}
     {% include 'partials/quote_modal.html' %}
-    {% endif %}
-    
-    {# WhatsApp Float Button #}
-    {% if request.resolver_match.url_name != 'statistics' %}
+    {% include 'partials/assistant_modal.html' %}
     {% include 'partials/whatsapp_button.html' %}
     {% endif %}
     

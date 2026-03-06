@@ -1,0 +1,22 @@
+# Dépendances de développement (optionnel)
+# Installez avec: pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+# Outils de développement
+ipython>=8.18.0  # Shell interactif amélioré
+django-debug-toolbar>=4.2.0  # Barre d'outils de débogage
+django-extensions>=3.2.0  # Utilitaires Django supplémentaires
+
+# Tests
+pytest>=7.4.0
+pytest-django>=4.7.0
+pytest-cov>=4.1.0  # Couverture de code
+
+# Formatage et linting
+black>=23.11.0  # Formatage automatique
+flake8>=6.1.0  # Linting
+isort>=5.12.0  # Tri des imports
+
+# Documentation
+sphinx>=7.2.0  # Génération de documentation

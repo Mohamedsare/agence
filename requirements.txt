@@ -1,2 +1,45 @@
+# ============================================
+# REQUIREMENTS.TXT - PRODUCTION
+# ============================================
+# Installation: pip install -r requirements.txt
+
+# Django Core Framework
 Django>=5.0,<6.0
+
+# Configuration et variables d'environnement
 python-decouple>=3.8
+
+# Gestion des images (OBLIGATOIRE - requis pour ImageField dans les models)
+Pillow>=10.0.0
+
+# Serveur WSGI pour production (OBLIGATOIRE pour hébergement)
+gunicorn>=21.2.0
+
+# Servir les fichiers statiques en production (RECOMMANDÉ)
+whitenoise>=6.6.0
+
+# Appels HTTP (assistant DeepSeek)
+requests>=2.28.0
+
+# ============================================
+# OPTIONNEL - Décommentez selon vos besoins
+# ============================================
+
+# Base de données PostgreSQL (recommandé pour production)
+psycopg2-binary>=2.9.9
+
+# Base de données MySQL (si vous utilisez MySQL)
+# mysqlclient>=2.2.0
+
+# CORS Headers (si vous avez besoin de CORS)
+django-cors-headers>=4.3.0
+
+# Monitoring d'erreurs en production (recommandé)
+sentry-sdk>=1.38.0
+
+# Cache Redis (pour améliorer les performances)
+redis>=5.0.0
+django-redis>=5.4.0
+
+# Email transactionnel (SendGrid, Mailgun, etc.)
+django-anymail>=10.2

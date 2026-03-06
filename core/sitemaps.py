@@ -31,14 +31,28 @@ class ServiceSitemap(Sitemap):
 
 
 class StaticSitemap(Sitemap):
-    """Sitemap pour les pages statiques."""
+    """Sitemap pour les pages statiques (SEO Burkina Faso : pages locales priorisées)."""
     changefreq = 'monthly'
     priority = 1.0
+
+    # Priorité élevée pour les pages ciblées Burkina Faso / SEO local
+    PRIORITIES = {
+        'home': 1.0,
+        'services_list': 0.95,
+        'maintenance_page': 0.92,
+        'contact': 0.95,
+        'seo_ouagadougou': 0.95,
+        'seo_bobo': 0.95,
+        'about': 0.9,
+        'blog_list': 0.9,
+        'team': 0.85,
+    }
 
     def items(self):
         return [
             'home',
             'services_list',
+            'maintenance_page',
             'about',
             'team',
             'contact',
@@ -49,3 +63,6 @@ class StaticSitemap(Sitemap):
 
     def location(self, item):
         return reverse(item)
+
+    def priority(self, item):
+        return self.PRIORITIES.get(item, 0.8)

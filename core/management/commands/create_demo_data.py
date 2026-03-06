@@ -10,7 +10,7 @@ from core.models import (
 
 
 class Command(BaseCommand):
-    help = 'Crée des données de démonstration pour le site SiraWeb'
+    help = 'Crée des données de démonstration pour le site FASOWEB'
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Création des données de démonstration...'))
@@ -37,13 +37,13 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('✓ Données de démonstration créées avec succès!'))
 
     def create_services(self):
-        """Crée les services de base."""
+        """Crée tous les services de base (vitrine, e-commerce, institutionnel, landing, refonte, SEO, SEA, maintenance)."""
         services_data = [
             {
                 'name': 'vitrine',
                 'short_description': 'Création de sites vitrine modernes et performants pour mettre en valeur votre entreprise.',
                 'full_description': 'Nous créons des sites vitrine sur mesure qui reflètent l\'identité de votre entreprise. Design moderne, responsive et optimisé pour le SEO.',
-                'meta_title': 'Création de Site Vitrine - SiraWeb Burkina Faso',
+                'meta_title': 'Création de Site Vitrine - FASOWEB Burkina Faso',
                 'meta_description': 'Création de sites vitrine modernes et performants au Burkina Faso. Design sur mesure, responsive et SEO-friendly.',
                 'order': 1
             },
@@ -51,25 +51,68 @@ class Command(BaseCommand):
                 'name': 'ecommerce',
                 'short_description': 'Développement de boutiques en ligne complètes avec gestion des commandes et paiements.',
                 'full_description': 'Solutions e-commerce complètes pour vendre vos produits en ligne. Interface intuitive, gestion des stocks, paiements sécurisés.',
-                'meta_title': 'Site E-commerce Burkina Faso - SiraWeb',
+                'meta_title': 'Site E-commerce Burkina Faso - FASOWEB',
                 'meta_description': 'Création de boutiques en ligne au Burkina Faso. Solutions e-commerce complètes avec gestion des commandes.',
                 'order': 2
+            },
+            {
+                'name': 'institutionnel',
+                'short_description': 'Sites institutionnels pour les organisations, administrations et structures publiques ou parapubliques.',
+                'full_description': 'Sites web institutionnels professionnels : accessibilité, conformité, contenu structuré. Idéal pour les organisations et le secteur public au Burkina Faso.',
+                'meta_title': 'Site Institutionnel - FASOWEB Burkina Faso',
+                'meta_description': 'Création de sites institutionnels au Burkina Faso. Solutions professionnelles pour organisations et administrations.',
+                'order': 3
+            },
+            {
+                'name': 'landing',
+                'short_description': 'Landing pages percutantes pour vos campagnes marketing et génération de leads.',
+                'full_description': 'Pages d’atterrissage optimisées pour la conversion : formulaire, appel à l’action, suivi des performances. Idéal pour campagnes ciblées.',
+                'meta_title': 'Landing Pages - FASOWEB Burkina Faso',
+                'meta_description': 'Création de landing pages au Burkina Faso. Pages optimisées pour la conversion et vos campagnes marketing.',
+                'order': 4
+            },
+            {
+                'name': 'refonte',
+                'short_description': 'Refonte UI/UX de votre site pour un design moderne, une meilleure expérience utilisateur et des performances accrues.',
+                'full_description': 'Nous modernisons votre site existant : nouveau design (UI), meilleure expérience utilisateur (UX), technique à jour et site plus rapide.',
+                'meta_title': 'Refonte UI/UX - FASOWEB Burkina Faso',
+                'meta_description': 'Refonte de sites web au Burkina Faso. Modernisation design, UX et performances.',
+                'order': 5
             },
             {
                 'name': 'seo',
                 'short_description': 'Optimisation SEO pour améliorer votre visibilité sur Google au Burkina Faso.',
                 'full_description': 'Services de référencement naturel (SEO) pour améliorer votre positionnement sur les moteurs de recherche.',
-                'meta_title': 'SEO Burkina Faso - Référencement Naturel SiraWeb',
+                'meta_title': 'SEO Burkina Faso - Référencement Naturel FASOWEB',
                 'meta_description': 'Services SEO au Burkina Faso. Améliorez votre visibilité sur Google avec notre expertise en référencement naturel.',
                 'order': 6
+            },
+            {
+                'name': 'sea',
+                'short_description': 'Campagnes Google Ads (SEA) pour une visibilité immédiate et des leads qualifiés.',
+                'full_description': 'Gestion de campagnes publicitaires Google Ads : annonces search, display, remarketing. Ciblage et suivi des conversions pour un ROI mesurable.',
+                'meta_title': 'SEA Google Ads - FASOWEB Burkina Faso',
+                'meta_description': 'Campagnes Google Ads (SEA) au Burkina Faso. Publicité ciblée et suivi des performances.',
+                'order': 7
+            },
+            {
+                'name': 'maintenance',
+                'short_description': 'Maintenance technique, mises à jour et hébergement pour garder votre site rapide, sécurisé et à jour.',
+                'full_description': 'Maintenance de site web, mises à jour de sécurité et de contenu, hébergement fiable. Nous assurons la disponibilité et la performance de votre site.',
+                'meta_title': 'Maintenance de site web - FASOWEB Burkina Faso',
+                'meta_description': 'Maintenance et hébergement de sites web au Burkina Faso. Sécurité, mises à jour et support continu.',
+                'order': 8,
+                'slug': 'maintenance-site-web',
             },
         ]
 
         for data in services_data:
-            service, created = Service.objects.get_or_create(
-                name=data['name'],
-                defaults=data
-            )
+            slug = data.pop('slug', None)
+            name = data.pop('name')
+            defaults = dict(data)
+            if slug is not None:
+                defaults['slug'] = slug
+            service, created = Service.objects.get_or_create(name=name, defaults=defaults)
             if created:
                 self.stdout.write(f'  ✓ Service créé: {service.get_name_display()}')
 
@@ -132,7 +175,7 @@ class Command(BaseCommand):
                 'tags': tags[2:5],
                 'published': True,
                 'published_at': timezone.now() - timedelta(days=10),
-                'meta_title': 'Les 5 erreurs SEO à éviter - SiraWeb',
+                'meta_title': 'Les 5 erreurs SEO à éviter - FASOWEB',
                 'meta_description': 'Découvrez les erreurs SEO les plus courantes et comment les éviter pour améliorer votre référencement.'
             },
             {
@@ -154,7 +197,7 @@ class Command(BaseCommand):
                 'tags': tags[5:8] if len(tags) > 7 else tags[:3],
                 'published': True,
                 'published_at': timezone.now() - timedelta(days=20),
-                'meta_title': 'Tendances design web 2026 - SiraWeb',
+                'meta_title': 'Tendances design web 2026 - FASOWEB',
                 'meta_description': 'Découvrez les tendances design qui vont marquer le web en 2026 et comment les intégrer à votre site.'
             },
             {
@@ -223,7 +266,7 @@ class Command(BaseCommand):
                 'client_name': 'Ousmane Sawadogo',
                 'client_company': 'Entreprise XYZ',
                 'client_role': 'Directeur Général',
-                'content': 'SiraWeb a créé un site web exceptionnel pour notre entreprise. Le résultat dépasse nos attentes !',
+                'content': 'FASOWEB a créé un site web exceptionnel pour notre entreprise. Le résultat dépasse nos attentes !',
                 'rating': 5,
                 'order': 1
             },

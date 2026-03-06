@@ -1,5 +1,5 @@
 /**
- * SiraWeb - Main JavaScript
+ * FASOWEB - Main JavaScript
  * Vanilla JS - No Dependencies
  * Performance-optimized with IntersectionObserver, requestAnimationFrame
  */
@@ -557,6 +557,63 @@
   }
 
   // ============================================
+  // Nos Réalisations Slider (home)
+  // ============================================
+  function initRealisationsSlider() {
+    const slider = document.querySelector('.realisations-slider');
+    if (!slider) return;
+
+    const track = slider.querySelector('.realisations-track');
+    const prevBtn = slider.querySelector('.realisations-slider-prev');
+    const nextBtn = slider.querySelector('.realisations-slider-next');
+    const cards = track ? Array.from(track.querySelectorAll('.realisations-card')) : [];
+
+    if (!track || !prevBtn || !nextBtn) return;
+    if (cards.length <= 1) {
+      prevBtn.style.display = 'none';
+      nextBtn.style.display = 'none';
+      return;
+    }
+
+    let currentIndex = 0;
+
+    function getStep() {
+      const gap = parseInt(getComputedStyle(track).gap, 10) || 24;
+      const card = cards[0];
+      const w = card ? card.getBoundingClientRect().width : 320;
+      return w + gap;
+    }
+
+    function scrollToCard(index) {
+      const maxIndex = cards.length - 1;
+      currentIndex = Math.max(0, Math.min(index, maxIndex));
+      const step = getStep();
+      const targetLeft = currentIndex * step;
+      track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+    }
+
+    prevBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      scrollToCard(currentIndex - 1);
+    });
+    nextBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      scrollToCard(currentIndex + 1);
+    });
+
+    let scrollTimeout;
+    track.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        const step = getStep();
+        if (step > 0) {
+          currentIndex = Math.round(track.scrollLeft / step);
+        }
+      }, 100);
+    }, { passive: true });
+  }
+
+  // ============================================
   // Card Tilt Effect (Desktop only)
   // ============================================
   function initCardTilt() {
@@ -761,30 +818,17 @@
       });
     }
 
-    // Ouvrir le modal depuis la page services
-    const openBtnServices = $('#open-quote-modal-services');
-    if (openBtnServices) {
-      openBtnServices.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-      });
-    }
+    // Ouvrir le modal depuis la page services (en-tête et CTA)
+    ['open-quote-modal-services', 'open-quote-modal-services-header'].forEach(function(id) {
+      const btn = document.getElementById(id);
+      if (btn) btn.addEventListener('click', function(e) { e.preventDefault(); openModal(); });
+    });
 
-    // Ouvrir le modal depuis la page détail service (hero et CTA)
-    const openBtnServiceDetail = $('#open-quote-modal-service-detail');
-    const openBtnServiceCTA = $('#open-quote-modal-service-cta');
-    if (openBtnServiceDetail) {
-      openBtnServiceDetail.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-      });
-    }
-    if (openBtnServiceCTA) {
-      openBtnServiceCTA.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-      });
-    }
+    // Ouvrir le modal depuis la page détail service (hero, après description, CTA)
+    ['open-quote-modal-service-detail', 'open-quote-modal-service-cta', 'open-quote-modal-service-after-desc'].forEach(function(id) {
+      const btn = document.getElementById(id);
+      if (btn) btn.addEventListener('click', function(e) { e.preventDefault(); openModal(); });
+    });
 
     // Ouvrir le modal depuis la page about
     const openBtnAbout = $('#open-quote-modal-about');
@@ -826,6 +870,154 @@
         // (géré par la redirection Django)
       });
     }
+  }
+
+  // ============================================
+  // Assistant FASOWEB (DeepSeek) - Modal chat
+  // ============================================
+  function initAssistantModal() {
+    const fab = $('#assistant-fab');
+    const modal = $('#assistant-modal');
+    const backdrop = $('#assistant-modal-backdrop');
+    const closeBtn = $('#assistant-modal-close');
+    const messagesEl = $('#assistant-chat-messages');
+    const welcomeEl = $('#assistant-welcome');
+    const form = $('#assistant-chat-form');
+    const input = $('#assistant-chat-input');
+    const sendBtn = $('#assistant-chat-send');
+    const loader = $('#assistant-chat-loader');
+    const openQuoteBtn = $('#assistant-open-quote');
+    const quoteModal = $('#quote-modal');
+
+    if (!modal || !messagesEl || !form || !input) return;
+
+    function getCsrfToken() {
+      const cookie = document.cookie.split(';').find(c => c.trim().startsWith('csrftoken='));
+      return cookie ? cookie.split('=')[1].trim() : '';
+    }
+
+    function openAssistant() {
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input.focus(), 100);
+    }
+
+    function closeAssistant() {
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function buildMessagesForApi() {
+      const msgDivs = messagesEl.querySelectorAll('.assistant-msg[data-role]');
+      return Array.from(msgDivs).map(el => ({
+        role: el.getAttribute('data-role'),
+        content: (el.querySelector('.assistant-msg-content') || el).textContent.trim()
+      }));
+    }
+
+    function appendMessage(role, content) {
+      if (welcomeEl) welcomeEl.classList.add('hidden');
+      const div = document.createElement('div');
+      div.className = 'assistant-msg assistant-msg-' + role;
+      div.setAttribute('data-role', role);
+      div.setAttribute('role', 'listitem');
+      const inner = document.createElement('div');
+      inner.className = 'assistant-msg-content';
+      inner.textContent = content;
+      div.appendChild(inner);
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function setLoading(loading) {
+      sendBtn.disabled = loading;
+      input.disabled = loading;
+      if (loader) loader.classList.toggle('active', loading);
+      const text = sendBtn.querySelector('.assistant-chat-send-text');
+      if (text) text.textContent = loading ? 'Envoi…' : 'Envoyer';
+    }
+
+    if (fab) fab.addEventListener('click', (e) => { e.preventDefault(); openAssistant(); });
+    if (closeBtn) closeBtn.addEventListener('click', (e) => { e.preventDefault(); closeAssistant(); });
+    if (backdrop) backdrop.addEventListener('click', closeAssistant);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeAssistant();
+    });
+
+    function openQuoteModal() {
+      if (quoteModal) {
+        closeAssistant();
+        quoteModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    [openQuoteBtn, document.getElementById('assistant-open-quote-2')].forEach(function(btn) {
+      if (btn && quoteModal) btn.addEventListener('click', function(e) { e.preventDefault(); openQuoteModal(); });
+    });
+    const ctaDevisBtns = modal.querySelectorAll('.assistant-cta-devis, .assistant-link-contact');
+    ctaDevisBtns.forEach(function(btn) {
+      if (btn && quoteModal) btn.addEventListener('click', function(e) { e.preventDefault(); openQuoteModal(); });
+    });
+
+    // Suggestions cliquables : envoyer le message au chat
+    const quickChips = modal.querySelectorAll('.assistant-quick-chip[data-message]');
+    quickChips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var msg = chip.getAttribute('data-message');
+        if (msg && input) {
+          input.value = msg;
+          form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+      });
+    });
+
+    // Ouverture automatique 3,5 s après l'arrivée sur le site (une fois par session)
+    try {
+      if (!sessionStorage.getItem('assistantAutoOpened')) {
+        setTimeout(function() {
+          if (modal.getAttribute('aria-hidden') === 'true') {
+            openAssistant();
+            sessionStorage.setItem('assistantAutoOpened', '1');
+          }
+        }, 3500);
+      }
+    } catch (err) { /* sessionStorage indisponible */ }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = (input.value || '').trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      input.value = '';
+      setLoading(true);
+
+      const messages = buildMessagesForApi();
+
+      try {
+        const res = await fetch('/api/assistant/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken(),
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ messages })
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          appendMessage('assistant', data.error || 'Une erreur est survenue. Contactez-nous directement par le formulaire ou WhatsApp.');
+          return;
+        }
+        appendMessage('assistant', data.content || 'Pas de réponse. N\'hésitez pas à nous contacter pour un devis personnalisé.');
+      } catch (err) {
+        appendMessage('assistant', 'Connexion impossible. Vous pouvez nous contacter par le formulaire de devis ou sur WhatsApp.');
+      } finally {
+        setLoading(false);
+        input.focus();
+      }
+    });
   }
 
   // ============================================
@@ -1071,6 +1263,7 @@
     initMessages();
     initLazyLoading();
     initQuoteModal();
+    initAssistantModal();
     initAnimatedCounter();
     initFAQ();
     initFAQPaginationScroll();
@@ -1086,6 +1279,7 @@
     // Sliders
     initTestimonialsSlider();
     initPortfolioSlider();
+    initRealisationsSlider();
     initTechnologiesCarousel();
 
     // Handle resize for responsive features

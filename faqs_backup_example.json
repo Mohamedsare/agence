@@ -3,8 +3,8 @@
   "model": "core.faq",
   "pk": 1,
   "fields": {
-    "question": "Qui est SiraWeb ?",
-    "answer": "SiraWeb est une agence web spécialisée dans la création de sites web modernes, performants et optimisés SEO, dédiée aux entreprises, entrepreneurs et organisations au Burkina Faso et en Afrique francophone.",
+    "question": "Qui est FASOWEB ?",
+    "answer": "FASOWEB est une agence web spécialisée dans la création de sites web modernes, performants et optimisés SEO, dédiée aux entreprises, entrepreneurs et organisations au Burkina Faso et en Afrique francophone.",
     "order": 1,
     "active": true,
     "created_at": "2026-02-02T00:44:17.650Z",
@@ -15,8 +15,8 @@
   "model": "core.faq",
   "pk": 2,
   "fields": {
-    "question": "Pourquoi choisir une agence locale comme SiraWeb ?",
-    "answer": "Travailler avec SiraWeb, c'est bénéficier :\n• d'une compréhension du marché burkinabè\n• de solutions adaptées aux réalités locales\n• d'un accompagnement humain et réactif\n• de tarifs cohérents avec le pouvoir économique local",
+    "question": "Pourquoi choisir une agence locale comme FASOWEB ?",
+    "answer": "Travailler avec FASOWEB, c'est bénéficier :\n• d'une compréhension du marché burkinabè\n• de solutions adaptées aux réalités locales\n• d'un accompagnement humain et réactif\n• de tarifs cohérents avec le pouvoir économique local",
     "order": 2,
     "active": true,
     "created_at": "2026-02-02T00:44:39.686Z",
@@ -87,7 +87,7 @@
   "model": "core.faq",
   "pk": 8,
   "fields": {
-    "question": "Comment se déroule un projet chez SiraWeb ?",
+    "question": "Comment se déroule un projet chez FASOWEB ?",
     "answer": "1. Analyse de vos besoins\n2. Proposition claire (design + fonctionnalités)\n3. Validation\n4. Développement\n5. Tests & mise en ligne\n6. Suivi et accompagnement",
     "order": 8,
     "active": true,

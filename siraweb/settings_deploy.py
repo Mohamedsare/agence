@@ -1,5 +1,6 @@
 """
-Django settings for FASOWEB project.
+Django settings for FASOWEB project (déploiement production).
+Même contenu que settings.py, avec valeurs adaptées pour la production (fasoweb.com).
 """
 import os
 from pathlib import Path
@@ -12,10 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production-!@#$%^&*()')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = ['*']
-
-#ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='fasoweb.com,www.fasoweb.com', cast=Csv())
 
 # Application definition
 INSTALLED_APPS = [
@@ -116,7 +115,7 @@ EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@siraweb.bf')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@fasoweb.com')
 
 # Security headers (for production)
 if not DEBUG:
@@ -137,5 +136,5 @@ DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'
 
 # Site information for SEO
 SITE_NAME = 'FASOWEB'
-SITE_DOMAIN = config('SITE_DOMAIN', default='https://siraweb.bf')
+SITE_DOMAIN = config('SITE_DOMAIN', default='https://fasoweb.com')
 SITE_DESCRIPTION = 'Agence Web au Burkina Faso - Création de sites web sur mesure, SEO, et développement web moderne'

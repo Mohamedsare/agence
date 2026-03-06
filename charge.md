@@ -1,5 +1,5 @@
 Tu es un Senior Full-Stack Engineer + UI/UX Designer (20 ans d’expertise) + SEO Technical Lead.
-Ta mission : générer un projet complet Django (templates) pour le site web ultra-moderne 2026 d’une agence web au Burkina Faso nommée “SiraWeb”.
+Ta mission : générer un projet complet Django (templates) pour le site web ultra-moderne 2026 d’une agence web au Burkina Faso nommée “FASOWEB”.
 
 Objectif :
 - Site vitrine premium “waouh”, mobile-first, ultra soigné (niveau agence internationale).
@@ -72,8 +72,8 @@ Livrables attendus :
   - Animations : IntersectionObserver + classes CSS, et quelques modules JS (navigation, slider, scroll progress, parallax léger).
   - Aucun code mort. Nommage clair. Commentaires utiles.
 
-Branding SiraWeb (à intégrer) :
-- Nom : SiraWeb
+Branding FASOWEB (à intégrer) :
+- Nom : FASOWEB
 - Positionnement : Agence Web au Burkina Faso – sites sur mesure, coût maîtrisé, SEO-friendly, interfaces modernes 2026.
 - Ton :  crédible, orienté résultats.
 - Palette proposée (tu peux l’améliorer) :
@@ -117,7 +117,7 @@ SEO détaillé :
 - OpenGraph + Twitter meta.
 - Canonical.
 - Schema JSON-LD :
-  - Organization/LocalBusiness (SiraWeb)
+  - Organization/LocalBusiness (FASOWEB)
   - Service pour pages services
   - BlogPosting pour articles
 - Contenu :

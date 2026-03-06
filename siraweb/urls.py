@@ -1,5 +1,5 @@
 """
-URL configuration for siraweb project.
+URL configuration for FASOWEB project.
 """
 from django.contrib import admin
 from django.urls import path, include

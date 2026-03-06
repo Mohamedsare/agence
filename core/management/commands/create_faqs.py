@@ -1,5 +1,5 @@
 """
-Commande Django pour créer les FAQs de SiraWeb
+Commande Django pour créer les FAQs de FASOWEB
 Usage: python manage.py create_faqs
 """
 from django.core.management.base import BaseCommand
@@ -7,18 +7,18 @@ from core.models import FAQ
 
 
 class Command(BaseCommand):
-    help = 'Crée les FAQs de SiraWeb'
+    help = 'Crée les FAQs de FASOWEB'
 
     def handle(self, *args, **options):
         faqs_data = [
             {
-                'question': 'Qui est SiraWeb ?',
-                'answer': 'SiraWeb est une agence web spécialisée dans la création de sites web modernes, performants et optimisés SEO, dédiée aux entreprises, entrepreneurs et organisations au Burkina Faso et en Afrique francophone.',
+                'question': 'Qui est FASOWEB ?',
+                'answer': 'FASOWEB est une agence web spécialisée dans la création de sites web modernes, performants et optimisés SEO, dédiée aux entreprises, entrepreneurs et organisations au Burkina Faso et en Afrique francophone.',
                 'order': 1,
             },
             {
-                'question': 'Pourquoi choisir une agence locale comme SiraWeb ?',
-                'answer': 'Travailler avec SiraWeb, c\'est bénéficier :\n• d\'une compréhension du marché burkinabè\n• de solutions adaptées aux réalités locales\n• d\'un accompagnement humain et réactif\n• de tarifs cohérents avec le pouvoir économique local',
+                'question': 'Pourquoi choisir une agence locale comme FASOWEB ?',
+                'answer': 'Travailler avec FASOWEB, c\'est bénéficier :\n• d\'une compréhension du marché burkinabè\n• de solutions adaptées aux réalités locales\n• d\'un accompagnement humain et réactif\n• de tarifs cohérents avec le pouvoir économique local',
                 'order': 2,
             },
             {
@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 'order': 7,
             },
             {
-                'question': 'Comment se déroule un projet chez SiraWeb ?',
+                'question': 'Comment se déroule un projet chez FASOWEB ?',
                 'answer': '1. Analyse de vos besoins\n2. Proposition claire (design + fonctionnalités)\n3. Validation\n4. Développement\n5. Tests & mise en ligne\n6. Suivi et accompagnement',
                 'order': 8,
             },
@@ -83,7 +83,7 @@ class Command(BaseCommand):
             },
             {
                 'question': 'Travaillez-vous avec les petites entreprises et startups ?',
-                'answer': 'Absolument. SiraWeb accompagne :\n• TPE & PME\n• entrepreneurs\n• associations\n• startups',
+                'answer': 'Absolument. FASOWEB accompagne :\n• TPE & PME\n• entrepreneurs\n• associations\n• startups',
                 'order': 15,
             },
             {
@@ -112,7 +112,7 @@ class Command(BaseCommand):
                 'order': 20,
             },
             {
-                'question': 'Comment démarrer avec SiraWeb ?',
+                'question': 'Comment démarrer avec FASOWEB ?',
                 'answer': 'Il suffit de nous contacter. Nous nous occupons du reste.',
                 'order': 21,
             },

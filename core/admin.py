@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Article, Category, Tag, ContactMessage, Service,
-    TeamMember, Testimonial, Partner, Portfolio, Technology, AnonymousCTA, WhatsAppConfig, FAQ, CompanyStats, PageView
+    TeamMember, Testimonial, Partner, Portfolio, Technology, AnonymousCTA, WhatsAppConfig, FAQ, CompanyStats, PageView, AssistantQuestion, PageBanner
 )
 
 
@@ -177,12 +177,12 @@ class FAQAdmin(admin.ModelAdmin):
 
 @admin.register(CompanyStats)
 class CompanyStatsAdmin(admin.ModelAdmin):
-    list_display = ['projects_count', 'years_experience', 'client_satisfaction', 'active', 'updated_at']
+    list_display = ['projects_count', 'years_experience', 'client_satisfaction', 'support_24_7', 'active', 'updated_at']
     list_filter = ['active', 'updated_at']
     fieldsets = (
         ('Statistiques', {
-            'fields': ('projects_count', 'years_experience', 'client_satisfaction'),
-            'description': 'Modifiez les statistiques affichées sur la page "À propos".'
+            'fields': ('projects_count', 'years_experience', 'client_satisfaction', 'support_24_7'),
+            'description': 'Ces chiffres sont affichés sur la page « À propos » et sur la page « Services » (bloc avec compteurs animés).'
         }),
         ('Affichage', {
             'fields': ('active',)
@@ -213,3 +213,65 @@ class PageViewAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         # Les visites sont en lecture seule
         return False
+
+
+@admin.register(AssistantQuestion)
+class AssistantQuestionAdmin(admin.ModelAdmin):
+    list_display = ['content_short', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['content']
+    readonly_fields = ['content', 'created_at']
+    date_hierarchy = 'created_at'
+    ordering = ['-created_at']
+
+    def content_short(self, obj):
+        return (obj.content[:80] + '…') if len(obj.content) > 80 else obj.content
+    content_short.short_description = 'Question'
+
+    def has_add_permission(self, request):
+        return False  # Les questions sont créées automatiquement par l'assistant
+
+
+@admin.register(PageBanner)
+class PageBannerAdmin(admin.ModelAdmin):
+    list_display = ['page', 'image_preview', 'order', 'created_at']
+    list_filter = ['page']
+    list_editable = ['order']
+    ordering = ['page', 'order']
+    list_per_page = 20
+
+    def get_fieldsets(self, request, obj=None):
+        """À l'ajout : pas d'aperçu (pas encore d'image). À l'édition : section Aperçu."""
+        base = (
+            (None, {
+                'fields': ('page', 'image', 'order'),
+                'description': 'Ajoutez une ou plusieurs images pour la bannière (slider). L\'ordre détermine l\'affichage. « Page d\'accueil » : / ; « Services » : toutes les pages du sous-menu Services (détail de chaque service + Maintenance).',
+            }),
+        )
+        if obj is not None:
+            base = base + (
+                ('Aperçu', {
+                    'fields': ('image_preview_large',),
+                    'classes': ('collapse',),
+                }),
+            )
+        return base
+
+    def image_preview(self, obj):
+        if obj.pk and obj.image:
+            from django.utils.html import format_html
+            return format_html('<img src="{}" style="max-height: 48px; width: auto; border-radius: 4px;">', obj.image.url)
+        return '—'
+    image_preview.short_description = 'Aperçu'
+
+    def image_preview_large(self, obj):
+        if obj.pk and obj.image:
+            from django.utils.html import format_html
+            return format_html('<img src="{}" style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">', obj.image.url)
+        return 'Enregistrez d\'abord pour voir l\'aperçu.'
+    image_preview_large.short_description = 'Aperçu de l\'image'
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is None:
+            return []
+        return ['image_preview_large']

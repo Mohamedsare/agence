@@ -2,8 +2,8 @@
 <header class="navbar" id="navbar">
     <div class="navbar-container">
         {# Logo #}
-        <a href="{% url 'home' %}" class="navbar-logo" aria-label="SiraWeb - Accueil">
-            <img src="{% static 'images/logo.png' %}" alt="SiraWeb" class="logo-image">
+        <a href="{% url 'home' %}" class="navbar-logo" aria-label="FASOWEB - Accueil">
+            <img src="{% static 'images/logo.png' %}" alt="FASOWEB" class="logo-image">
         </a>
         
         {# Desktop Navigation #}
@@ -16,6 +16,7 @@
                         {% for service in services %}
                         <li><a href="{{ service.get_absolute_url }}" class="dropdown-link">{{ service.get_name_display }}</a></li>
                         {% endfor %}
+                        <li><a href="{% url 'maintenance_page' %}" class="dropdown-link">Maintenance de site web</a></li>
                     </ul>
                 </li>
                 <li class="nav-item-dropdown">
@@ -69,6 +70,7 @@
                             {% for service in services %}
                             <li><a href="{{ service.get_absolute_url }}" class="mobile-submenu-link">{{ service.get_name_display }}</a></li>
                             {% endfor %}
+                            <li><a href="{% url 'maintenance_page' %}" class="mobile-submenu-link">Maintenance de site web</a></li>
                         </ul>
                     </li>
                     <li>

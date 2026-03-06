@@ -1,0 +1,20 @@
+# Dépendances pour la PRODUCTION uniquement
+
+# Base de données PostgreSQL (recommandé pour production)
+psycopg2-binary>=2.9.9
+
+# Monitoring d'erreurs (recommandé)
+sentry-sdk>=1.38.0
+
+# Cache Redis (recommandé pour haute performance)
+redis>=5.0.0
+django-redis>=5.4.0
+
+# Email transactionnel (recommandé)
+django-anymail>=10.2
+
+# Compression avancée
+brotli>=1.1.0
+
+# Sécurité renforcée
+django-security>=0.18.0

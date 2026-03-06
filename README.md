@@ -1,6 +1,6 @@
-# SiraWeb - Agence Web Burkina Faso
+# FASOWEB - Agence Web Burkina Faso
 
-Site web ultra-moderne 2026 pour l'agence web SiraWeb au Burkina Faso. Projet Django avec templates, design premium, animations performantes et SEO optimisé.
+Site web ultra-moderne 2026 pour l'agence web FASOWEB au Burkina Faso. Projet Django avec templates, design premium, animations performantes et SEO optimisé.
 
 ## 🚀 Caractéristiques
 
@@ -185,7 +185,7 @@ service = Service.objects.create(
     name='vitrine',
     short_description='Création de sites vitrine modernes et performants',
     full_description='Description complète du service...',
-    meta_title='Création de Site Vitrine - SiraWeb',
+    meta_title='Création de Site Vitrine - FASOWEB',
     meta_description='Service de création de sites vitrine au Burkina Faso',
     order=1,
     active=True
@@ -296,7 +296,7 @@ Créez `/etc/systemd/system/siraweb.service` :
 
 ```ini
 [Unit]
-Description=SiraWeb Gunicorn daemon
+Description=FASOWEB Gunicorn daemon
 After=network.target
 
 [Service]
@@ -427,12 +427,12 @@ Vérifiez que toutes les URLs sont correctement configurées dans `core/urls.py`
 
 ## 📄 Licence
 
-Ce projet est propriétaire de SiraWeb.
+Ce projet est propriétaire de FASOWEB.
 
 ## 👥 Support
 
-Pour toute question ou problème, contactez l'équipe SiraWeb.
+Pour toute question ou problème, contactez l'équipe FASOWEB.
 
 ---
 
-**Développé avec ❤️ pour SiraWeb - Agence Web Burkina Faso**
+**Développé avec ❤️ pour FASOWEB - Agence Web Burkina Faso**

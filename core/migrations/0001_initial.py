@@ -338,7 +338,7 @@ class Migration(migrations.Migration):
                 (
                     "author",
                     models.CharField(
-                        default="SiraWeb", max_length=100, verbose_name="Auteur"
+                        default="FASOWEB", max_length=100, verbose_name="Auteur"
                     ),
                 ),
                 (

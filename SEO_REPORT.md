@@ -1,4 +1,4 @@
-# Rapport SEO - SiraWeb pour Google au Burkina Faso
+# Rapport SEO - FASOWEB pour Google au Burkina Faso
 
 ## ✅ Éléments SEO en place
 

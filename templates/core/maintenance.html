@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block schema_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Maintenance de site web",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "FASOWEB",
+    "address": { "@type": "PostalAddress", "addressLocality": "Ouagadougou", "addressCountry": "BF" }
+  },
+  "description": "Maintenance et mise à jour de votre site web au Burkina Faso. Mises à jour, sauvegardes, sécurité et support technique.",
+  "areaServed": { "@type": "Country", "name": "Burkina Faso" }
+}
+</script>
+{% endblock %}
+
+{% block meta_keywords %}maintenance site web Burkina Faso, maintenance site Ouagadougou, hébergement site web Bobo-Dioulasso, mise à jour site Burkina, FASOWEB maintenance{% endblock %}
+
+{% block content %}
+{# Hero Section : slider si des images bannière sont définies, sinon bloc classique #}
+{% if banner_images %}
+<section class="service-hero service-hero-slider" aria-label="Bannière Maintenance">
+    <div class="hero-slider-track">
+        {% for banner in banner_images %}
+        <div class="hero-slider-slide {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}" style="background-image: url('{{ banner.image.url }}');"></div>
+        {% endfor %}
+    </div>
+    <div class="hero-slider-overlay"></div>
+    <div class="hero-slider-content">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Fil d'Ariane">
+                <a href="{% url 'home' %}">Accueil</a>
+                <span aria-hidden="true">/</span>
+                <a href="{% url 'services_list' %}">Services</a>
+                <span aria-hidden="true">/</span>
+                <span>Maintenance de site web</span>
+            </nav>
+            <div class="service-hero-content reveal-fade-up">
+                <div class="service-hero-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                    </svg>
+                </div>
+                <h1 class="service-hero-title">Maintenance de site web</h1>
+                <p class="service-hero-description">Gardez votre site à jour, sécurisé et performant avec un accompagnement technique continu au Burkina Faso.</p>
+                <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-maintenance">
+                    <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% if banner_images|length > 1 %}
+    <div class="hero-slider-dots" role="tablist" aria-label="Slides du bandeau">
+        {% for banner in banner_images %}
+        <button type="button" class="hero-slider-dot {% if forloop.first %}active{% endif %}" role="tab" aria-label="Image {{ forloop.counter }}" data-index="{{ forloop.counter0 }}"></button>
+        {% endfor %}
+    </div>
+    <button type="button" class="hero-slider-prev" aria-label="Image précédente">‹</button>
+    <button type="button" class="hero-slider-next" aria-label="Image suivante">›</button>
+    {% endif %}
+</section>
+{% else %}
+<section class="service-hero">
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="{% url 'home' %}">Accueil</a>
+            <span aria-hidden="true">/</span>
+            <a href="{% url 'services_list' %}">Services</a>
+            <span aria-hidden="true">/</span>
+            <span>Maintenance de site web</span>
+        </nav>
+        <div class="service-hero-content reveal-fade-up">
+            <div class="service-hero-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                </svg>
+            </div>
+            <h1 class="service-hero-title">Maintenance de site web</h1>
+            <p class="service-hero-description">Gardez votre site à jour, sécurisé et performant avec un accompagnement technique continu au Burkina Faso.</p>
+            <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-maintenance">
+                <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+            </button>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Description Section #}
+<section class="service-description-section">
+    <div class="container">
+        <div class="service-description-content reveal-fade-up">
+            <h2 class="section-title">En détail</h2>
+            <div class="service-description-text">
+                <p>Un site web a besoin d’une maintenance régulière pour rester performant, sécurisé et à jour. FASOWEB vous propose des formules de <strong>maintenance de site web</strong> adaptées à votre activité : mises à jour des contenus et des logiciels, sauvegardes, surveillance de la sécurité et support technique réactif.</p>
+                <p>Que vous soyez à Ouagadougou, Bobo-Dioulasso ou ailleurs au Burkina Faso, nous assurons le suivi de votre site pour que vous puissiez vous concentrer sur votre cœur de métier.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Features Section #}
+<section class="service-features-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Ce que nous prenons en charge</span>
+            <h2 class="section-title">Livrables inclus</h2>
+        </div>
+        <div class="service-features-grid">
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3>Mises à jour régulières</h3>
+                <p>Mise à jour du contenu, des plugins et des technologies pour éviter les failles et rester performant.</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </div>
+                <h3>Sauvegardes</h3>
+                <p>Sauvegardes automatiques et plan de reprise pour protéger vos données.</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3>Sécurité & monitoring</h3>
+                <p>Surveillance des intrusions, certificat SSL et bonnes pratiques de sécurité.</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="6" x2="12" y2="12"></line>
+                        <line x1="16.14" y1="7.86" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Support technique</h3>
+                <p>Réponse rapide pour les corrections, l’assistance et les évolutions mineures.</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <h3>Performance</h3>
+                <p>Optimisation de la vitesse et du référencement pour une bonne expérience utilisateur.</p>
+            </div>
+            <div class="service-feature-card reveal-fade-up">
+                <div class="service-feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Accompagnement continu</h3>
+                <p>Un interlocuteur dédié et un suivi sur la durée pour votre sérénité.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Related Services Section #}
+{% if similar_services %}
+<section class="service-related-section">
+    <div class="container">
+        <div class="section-header reveal-fade-up">
+            <span class="section-label">Découvrez aussi</span>
+            <h2 class="section-title">Services similaires</h2>
+        </div>
+        <div class="service-related-grid">
+            {% for similar in similar_services %}
+            <a href="{{ similar.get_absolute_url }}" class="service-related-card reveal-fade-up">
+                <h3>{{ similar.get_name_display }}</h3>
+                <p>{{ similar.short_description }}</p>
+                <span class="service-related-link">
+                    En savoir plus
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# CTA Section - conversion #}
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal-fade-up">
+            <h2 class="cta-title">Un contrat de maintenance sur mesure au Burkina Faso ?</h2>
+            <p class="cta-description">
+                Réponse sous 24h · Devis gratuit · Ouagadougou, Bobo-Dioulasso et partout au pays. Décrivez-nous votre site, nous vous proposons une offre adaptée.
+            </p>
+            <button type="button" class="btn btn-primary btn-large magnetic" id="open-quote-modal-maintenance-cta">
+                <span class="cta-text-highlight">Dema<span class="highlight-part">nder un</span> devis gratuit</span>
+            </button>
+            <p class="cta-trust">Sans engagement · Tarifs adaptés au marché local</p>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function openQuote() {
+        var btn = document.getElementById('open-quote-modal');
+        if (btn) btn.click();
+    }
+    ['open-quote-modal-maintenance', 'open-quote-modal-maintenance-cta'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', openQuote);
+    });
+
+    /* Hero slider (maintenance bannière) */
+    var slider = document.querySelector('.service-hero-slider');
+    if (slider) {
+        var slides = slider.querySelectorAll('.hero-slider-slide');
+        var dots = slider.querySelectorAll('.hero-slider-dot');
+        var prev = slider.querySelector('.hero-slider-prev');
+        var next = slider.querySelector('.hero-slider-next');
+        var current = 0;
+        var total = slides.length;
+        var interval;
+
+        function goTo(index) {
+            current = (index + total) % total;
+            slides.forEach(function(s, i) { s.classList.toggle('active', i === current); });
+            if (dots.length) dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+        }
+        function nextSlide() { goTo(current + 1); }
+        function startInterval() {
+            if (total > 1) interval = setInterval(nextSlide, 5000);
+        }
+        function stopInterval() { if (interval) clearInterval(interval); }
+        if (next) next.addEventListener('click', function() { stopInterval(); nextSlide(); startInterval(); });
+        if (prev) prev.addEventListener('click', function() { stopInterval(); goTo(current - 1); startInterval(); });
+        dots.forEach(function(dot, i) {
+            dot.addEventListener('click', function() { stopInterval(); goTo(i); startInterval(); });
+        });
+        startInterval();
+    }
+});
+</script>
+{% endblock %}

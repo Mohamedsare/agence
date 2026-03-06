@@ -1,5 +1,5 @@
 """
-WSGI config for siraweb project.
+WSGI config for FASOWEB project.
 """
 import os
 
