@@ -27,6 +27,7 @@ urlpatterns = [
     
     # Tableau de bord
     path('statistiques/', views.statistics, name='statistics'),
+    path('statistiques/api/realtime/', views.statistics_realtime, name='statistics_realtime'),
     path('statistiques/messages/', views.dashboard_messages, name='dashboard_messages'),
     
     # Robots.txt

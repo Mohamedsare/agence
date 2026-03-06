@@ -427,11 +427,20 @@ def statistics(request):
     country_data = [{'country': item['country'] or 'Inconnu', 'code': item['country_code'], 'count': item['count']} 
                     for item in country_stats]
     
+    # Répartition par type d'appareil (pour camembert)
+    device_stats = views.values('device_type').annotate(count=Count('id')).order_by('-count')
+    device_labels = dict(PageView.DEVICE_CHOICES)
+    device_data = [{'label': device_labels.get(item['device_type'], item['device_type']), 'count': item['count']} 
+                   for item in device_stats]
+    
     # Pages les plus visitées
     top_pages = list(views.values('path').annotate(count=Count('id')).order_by('-count')[:10])
 
     # Dernières questions posées à l'assistant (tableau de bord)
     assistant_questions = AssistantQuestion.objects.all().order_by('-created_at')[:100]
+    
+    # Dernières visites (date/heure, page, provenance, pays/ville)
+    last_visits = views.order_by('-created_at')[:100]
     
     # Convertir en JSON pour le template
     import json
@@ -451,10 +460,45 @@ def statistics(request):
         'monthly_views': json.dumps(monthly_views),
         'yearly_views': json.dumps(yearly_views),
         'country_data': json.dumps(country_data),
+        'device_data': json.dumps(device_data),
         'top_pages': json.dumps(top_pages),
         'assistant_questions': assistant_questions,
+        'last_visits': last_visits,
     }
     return render(request, 'core/statistics.html', context)
+
+
+def statistics_realtime(request):
+    """
+    API JSON pour le rafraîchissement temps réel du tableau de bord :
+    dernières visites et données pays (carte). Réservé aux staff.
+    """
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return JsonResponse({'error': 'Unauthorized'}, status=401)
+    from django.db.models import Count
+    views = PageView.objects.filter(is_bot=False)
+    # Dernières visites (100)
+    last = views.order_by('-created_at')[:100]
+    last_visits = [
+        {
+            'created_at': v.created_at.strftime('%d/%m/%Y %H:%M'),
+            'path': v.path[:50] + ('…' if len(v.path) > 50 else ''),
+            'referer': v.referer or '',
+            'country': v.country or '',
+            'city': v.city or '',
+            'device': v.get_device_type_display(),
+        }
+        for v in last
+    ]
+    # Répartition par pays (carte)
+    country_stats = views.exclude(country_code='').values('country', 'country_code').annotate(
+        count=Count('id')
+    ).order_by('-count')[:20]
+    country_data = [
+        {'country': item['country'] or 'Inconnu', 'code': item['country_code'], 'count': item['count']}
+        for item in country_stats
+    ]
+    return JsonResponse({'last_visits': last_visits, 'country_data': country_data})
 
 
 def dashboard_messages(request):

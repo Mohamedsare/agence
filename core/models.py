@@ -366,16 +366,38 @@ class CompanyStats(models.Model):
 
 
 class PageView(models.Model):
-    """Statistiques de visite des pages."""
+    """
+    Statistiques de visite des pages.
+    Une entrée = une vue de page par session (ou par IP si pas de session) dans une fenêtre de 24h.
+    Évite de compter chaque rechargement ou changement de page comme une nouvelle visite.
+    """
+    DEVICE_DESKTOP = 'desktop'
+    DEVICE_MOBILE = 'mobile'
+    DEVICE_TABLET = 'tablet'
+    DEVICE_OTHER = 'other'
+    DEVICE_CHOICES = [
+        (DEVICE_DESKTOP, 'Ordinateur'),
+        (DEVICE_MOBILE, 'Mobile'),
+        (DEVICE_TABLET, 'Tablette'),
+        (DEVICE_OTHER, 'Autre'),
+    ]
     path = models.CharField(max_length=500, verbose_name="Chemin de la page")
     ip_address = models.GenericIPAddressField(verbose_name="Adresse IP")
+    session_key = models.CharField(max_length=40, blank=True, db_index=True, verbose_name="Clé de session")
+    device_type = models.CharField(
+        max_length=20,
+        choices=DEVICE_CHOICES,
+        default=DEVICE_OTHER,
+        db_index=True,
+        verbose_name="Type d'appareil",
+    )
     country = models.CharField(max_length=100, blank=True, verbose_name="Pays")
     country_code = models.CharField(max_length=2, blank=True, verbose_name="Code pays")
     city = models.CharField(max_length=100, blank=True, verbose_name="Ville")
     user_agent = models.TextField(blank=True, verbose_name="User Agent")
-    referer = models.URLField(blank=True, verbose_name="Référent")
+    referer = models.TextField(blank=True, verbose_name="Provenance (référent)")
     is_bot = models.BooleanField(default=False, verbose_name="Bot")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de visite")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date et heure de visite")
     
     class Meta:
         verbose_name = "Visite"
@@ -385,6 +407,8 @@ class PageView(models.Model):
             models.Index(fields=['-created_at']),
             models.Index(fields=['path']),
             models.Index(fields=['country_code']),
+            models.Index(fields=['session_key']),
+            models.Index(fields=['device_type']),
         ]
     
     def __str__(self):

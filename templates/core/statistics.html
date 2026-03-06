@@ -184,6 +184,7 @@
             <div class="map-widget">
                 <div class="chart-header">
                     <h3 class="chart-title">Temps Réel</h3>
+                    <span class="chart-subtitle">Carte par pays · Données et tableau rafraîchis toutes les 30 s</span>
                 </div>
                 <div class="map-body" id="worldMap"></div>
             </div>
@@ -196,6 +197,51 @@
                 <div class="chart-body">
                     <canvas id="browserChart"></canvas>
                 </div>
+            </div>
+            
+            {# Type d'appareils (camembert) #}
+            <div class="chart-widget">
+                <div class="chart-header">
+                    <h3 class="chart-title">Type d'appareils</h3>
+                </div>
+                <div class="chart-body">
+                    <canvas id="deviceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {# Dernières visites : date/heure, page, provenance, pays/ville #}
+        <div class="dashboard-questions-widget">
+            <div class="chart-header">
+                <h3 class="chart-title">Dernières visites</h3>
+                <span class="chart-subtitle">Date et heure, page, provenance, pays/ville, type d'appareil</span>
+            </div>
+            <div class="questions-list-wrapper">
+                <div class="table-responsive" id="stats-visits-table-wrap">
+                    <table class="stats-visits-table">
+                        <thead>
+                            <tr>
+                                <th>Date et heure</th>
+                                <th>Page</th>
+                                <th>Provenance</th>
+                                <th>Pays / Ville</th>
+                                <th>Appareil</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-visits-tbody">
+                            {% for v in last_visits %}
+                            <tr>
+                                <td>{{ v.created_at|date:"d/m/Y H:i" }}</td>
+                                <td><code>{{ v.path|truncatechars:50 }}</code></td>
+                                <td>{% if v.referer %}<a href="{{ v.referer }}" target="_blank" rel="noopener noreferrer">{{ v.referer|truncatechars:40 }}</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                                <td>{% if v.country or v.city %}{{ v.country|default:"" }}{% if v.country and v.city %} — {% endif %}{{ v.city|default:"" }}{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                                <td>{{ v.get_device_type_display|default:"—" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <p class="questions-empty" id="stats-visits-empty" style="{% if last_visits %}display:none;{% endif %}">Aucune visite enregistrée pour le moment.</p>
             </div>
         </div>
 
@@ -233,6 +279,7 @@ Chart.defaults.font.family = 'Inter, sans-serif';
 const dailyData = {{ daily_views|safe }};
 const monthlyData = {{ monthly_views|safe }};
 const countryData = {{ country_data|safe }};
+const deviceData = {{ device_data|safe }};
 
 // Graphique Recent Movement
 const recentCtx = document.getElementById('recentMovementChart').getContext('2d');
@@ -316,6 +363,38 @@ new Chart(browserCtx, {
     }
 });
 
+// Camembert Type d'appareils (couleurs fixes : Ordinateur=bleu, Mobile=vert, Tablette=orange, Autre=gris)
+const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+const deviceDataArray = Array.isArray(deviceData) ? deviceData : [];
+const deviceColorByLabel = { 'Ordinateur': '#2196F3', 'Mobile': '#4CAF50', 'Tablette': '#FF9800', 'Autre': '#9E9E9E' };
+const deviceLabels = deviceDataArray.length > 0 ? deviceDataArray.map(d => d.label) : ['Ordinateur', 'Mobile', 'Tablette', 'Autre'];
+const deviceValues = deviceDataArray.length > 0 ? deviceDataArray.map(d => d.count) : [0, 0, 0, 0];
+const deviceColors = deviceLabels.map(l => deviceColorByLabel[l] || '#9E9E9E');
+new Chart(deviceCtx, {
+    type: 'doughnut',
+    data: {
+        labels: deviceLabels,
+        datasets: [{
+            data: deviceValues,
+            backgroundColor: deviceColors,
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'right',
+                labels: {
+                    padding: 15,
+                    usePointStyle: true
+                }
+            }
+        }
+    }
+});
+
 // Calendar
 const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 let currentDate = new Date();
@@ -382,47 +461,69 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18
 }).addTo(map);
 
-// Coordonnées approximatives pour quelques pays (à améliorer avec une vraie API de géolocalisation)
+// Coordonnées approximatives pour les pays (carte temps réel)
 const countryCoords = {
-    'BF': [12.2383, -1.5616], // Burkina Faso
-    'FR': [46.2276, 2.2137], // France
-    'US': [37.0902, -95.7129], // USA
-    'GB': [55.3781, -3.4360], // UK
-    'DE': [51.1657, 10.4515], // Germany
-    'CA': [56.1304, -106.3468], // Canada
-    'SN': [14.4974, -14.4524], // Senegal
-    'CI': [7.5400, -5.5471], // Côte d'Ivoire
-    'ML': [17.5707, -3.9962], // Mali
-    'NE': [17.6078, 8.0817], // Niger
+    'BF': [12.2383, -1.5616], 'FR': [46.2276, 2.2137], 'US': [37.0902, -95.7129], 'GB': [55.3781, -3.4360],
+    'DE': [51.1657, 10.4515], 'CA': [56.1304, -106.3468], 'SN': [14.4974, -14.4524], 'CI': [7.5400, -5.5471],
+    'ML': [17.5707, -3.9962], 'NE': [17.6078, 8.0817], 'BE': [50.5039, 4.4699], 'CH': [46.8182, 8.2275],
+    'TG': [8.6195, 0.8248], 'GN': [9.9456, -9.6966], 'BJ': [9.3077, 2.3158], 'MA': [31.7917, -7.0926],
+    'TN': [33.8869, 9.5375], 'DZ': [28.0339, 1.6596], 'CM': [6.3703, 12.3547], 'NG': [9.0820, 8.6753],
 };
 
-// Ajouter des marqueurs pour les pays avec des visites
+const mapMarkersLayer = L.layerGroup().addTo(map);
+function updateMapMarkers(countryDataArray) {
+    mapMarkersLayer.clearLayers();
+    if (countryDataArray && countryDataArray.length > 0) {
+        countryDataArray.forEach(function(country) {
+            if (country.code && countryCoords[country.code]) {
+                const coords = countryCoords[country.code];
+                L.circleMarker(coords, {
+                    radius: Math.min(Math.max(country.count / 10, 6), 20),
+                    fillColor: '#2196F3',
+                    color: '#1976D2',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.6
+                }).addTo(mapMarkersLayer).bindPopup(country.country + ': ' + country.count + ' visites');
+            }
+        });
+    }
+}
+// Données initiales
 const countryDataArray = {{ country_data|safe }};
-if (countryDataArray && countryDataArray.length > 0) {
-    countryDataArray.forEach(function(country) {
-        if (country.code && countryCoords[country.code]) {
-            const coords = countryCoords[country.code];
-            L.circleMarker(coords, {
-                radius: Math.min(country.count / 10, 20),
-                fillColor: '#2196F3',
-                color: '#1976D2',
-                weight: 2,
-                opacity: 1,
-                fillOpacity: 0.6
-            }).addTo(map)
-            .bindPopup(country.country + ': ' + country.count + ' visites');
-        }
-    });
-} else {
-    // Ajouter quelques marqueurs de démonstration
-    L.circleMarker([12.2383, -1.5616], {
-        radius: 15,
-        fillColor: '#2196F3',
-        color: '#1976D2',
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.6
-    }).addTo(map).bindPopup('Burkina Faso: Exemple');
+updateMapMarkers(countryDataArray);
+
+// Rafraîchissement temps réel (toutes les 30 s si l'onglet est visible)
+const statsRealtimeUrl = '{% url "statistics_realtime" %}';
+const visitsTbody = document.getElementById('stats-visits-tbody');
+const visitsEmptyEl = document.getElementById('stats-visits-empty');
+if (visitsTbody && statsRealtimeUrl) {
+    function escapeHtml(s) {
+        if (s == null) return '';
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+    }
+    function refreshRealtime() {
+        if (document.hidden) return;
+        fetch(statsRealtimeUrl, { credentials: 'same-origin' })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(data) {
+                if (!data) return;
+                if (data.last_visits && data.last_visits.length >= 0) {
+                    visitsTbody.innerHTML = data.last_visits.length === 0 ? '' : data.last_visits.map(function(v) {
+                        var refDisplay = v.referer ? (v.referer.length > 40 ? v.referer.slice(0, 40) + '…' : v.referer) : '';
+                        var ref = v.referer ? '<a href="' + escapeHtml(v.referer) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(refDisplay) + '</a>' : '<span class="text-muted">—</span>';
+                        var loc = (v.country || v.city) ? escapeHtml([v.country, v.city].filter(Boolean).join(' — ')) : '<span class="text-muted">—</span>';
+                        return '<tr><td>' + escapeHtml(v.created_at) + '</td><td><code>' + escapeHtml(v.path) + '</code></td><td>' + ref + '</td><td>' + loc + '</td><td>' + escapeHtml(v.device) + '</td></tr>';
+                    }).join('');
+                    if (visitsEmptyEl) visitsEmptyEl.style.display = data.last_visits.length ? 'none' : 'block';
+                }
+                if (data.country_data) updateMapMarkers(data.country_data);
+            })
+            .catch(function() {});
+    }
+    setInterval(refreshRealtime, 30000);
 }
 
 </script>
